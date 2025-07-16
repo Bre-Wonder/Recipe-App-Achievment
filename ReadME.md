@@ -28,6 +28,9 @@ Python | virtualenvwrapper | ipython shell |
 
 ### API Use
 
+### Data Type Decision for this Project:
+The choice that seems most advantageous for this project would be dictionary data types. Dictionaries do have the benefit of being able to add and subtract values just like lists do. However, dictionaries can have a key:value relationship which allows you to create a data structure that can have a key that is consistant (ie. name, ingredients, cooking time) accross all the data while still be able to update the value differently if needed. For instance, if each receipe had the same key of ingredients each recipe could still have a different list of ingredients while still requiring ingredients. 
+
 
 ### Lessons Learned:
 Python can be used in virtual environments and run in command line. The virtual environments keep the dependancies clear and organized since different scripts can require different dependancies. Having Pythong work in a command line is very convient as you can test the code even before it goes into a scrip file. Python also has a requirement.txt file that is really helpful if you want to know what an application is using and easily download that installation and modules to recreate the environment. 
