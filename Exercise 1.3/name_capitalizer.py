@@ -1,0 +1,1 @@
+<variable that stores the returned string> = input('<optional prompt that describes what data the user has to enter>")
