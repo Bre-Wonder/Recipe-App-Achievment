@@ -14,4 +14,12 @@ def take_recipe():
     print(recipe)
 
 
-# for n in enumerate():
+for i in range(n):
+    recipe = take_recipe(i)
+    for ingredient in recipe['ingredients']:
+        if ingredient not in ingredients_list:
+            ingredients_list.append(ingredient)
+            print(ingredient + ' added to your list')
+        else:
+            print(ingredient + ' is already on your list!')
+    recipe_list.append(recipe)
