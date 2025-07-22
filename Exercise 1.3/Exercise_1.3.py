@@ -45,3 +45,7 @@ for i in range(n):
         print(f'Cooking Time (in minutes): {recipe['cooking_time']}')
         print(f'Ingredients: ' + ', '.join(recipe['ingredients']))
         print(f'Difficulty Level: {recipe['difficulty']}')
+
+    ingredients_list.sort()
+
+print(f'Ingredients for all recipes: {ingredients_list}')
