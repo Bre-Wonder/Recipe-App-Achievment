@@ -4,6 +4,19 @@ recipe_list = []
 all_ingredients = []
 n = int(input("How many recipes would you like to have? "))
 
+# function that determines how difficult the recipe is
+
+
+def calc_difficulty(recipe):
+    if recipe['cooking_time'] < 10 and len(recipe['ingredients']) < 4:
+        return 'Easy'
+    elif recipe['cooking_time'] < 10 and len(recipe['ingredients']) >= 4:
+        return 'Medium'
+    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) < 4:
+        return 'Intermediate'
+    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
+        return 'Hard'
+
 # allows user to input a recipe of choice
 
 
@@ -33,29 +46,23 @@ for i in range(n):
             print(ingredient + ' is already on your list!')
 
 
-# function that determines how difficult the recipe is
-
-
-def calc_difficulty(recipe):
-    if recipe['cooking_time'] < 10 and len(recipe['ingredients']) < 4:
-        return 'Easy'
-    elif recipe['cooking_time'] < 10 and len(recipe['ingredients']) >= 4:
-        return 'Medium'
-    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) < 4:
-        return 'Intermediate'
-    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
-        return 'Hard'
-
-
 data = {
     'recipe_list': recipe_list,
     'all_ingredients': all_ingredients
 }
 
+named_file = input(
+    'What is the name of the file where you would like to store your recipes? ')
+if not named_file.endswith('.bin'):
+    named_file += '.bin'
+    print('Your file name did not include .bin at the end. It has been added to your file name.')
+else:
+    print('Name convention done correctly')
+
+
 # opens binary file and gives the read command
 try:
-    recipe_details = open('given_file.bin', 'rb')
-    # pickle.dump(recipe, recipe_details)
+    recipe_details = open(named_file, 'rb')
     data = pickle.load(recipe_details)
 
 # runs an error if file is not found in the correct file path or not found at all
@@ -83,3 +90,7 @@ else:
 finally:
     recipe_list = data['recipe_list']
     all_ingredients = data['all_ingredients']
+    all_ingredients.sort()
+
+    with open(named_file, 'wb') as recipe_details:
+        pickle.dump(data, recipe_details)
