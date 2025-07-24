@@ -1,5 +1,8 @@
 import pickle
 
+recipe_list = []
+all_ingredients = []
+
 # allows user to input a recipe of choice
 
 
@@ -25,3 +28,41 @@ def calc_difficulty(recipe):
         return 'Intermediate'
     elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
         return 'Hard'
+
+
+data = {
+    'recipe_list': recipe_list,
+    'all_ingredients': all_ingredients
+}
+
+# opens binary file and gives the read command
+try:
+    recipe_details = open('given_file.bin', 'rb')
+    # pickle.dump(recipe, recipe_details)
+    data = pickle.load(recipe_details)
+
+# runs an error if file is not found in the correct file path or not found at all
+except FileNotFoundError:
+    print('File not found, please select another file')
+    data = {
+        'recipe_list': recipe_list,
+        'all_ingredients': all_ingredients
+    }
+
+# runs an error when input is not the right type of value
+except (pickle.UnpicklingError, EOFError):
+    print('Error occurred while trying to read file')
+    data = {
+        'recipe_list': recipe_list,
+        'all_ingredients': all_ingredients
+    }
+
+# closes file opened by pickle
+else:
+    recipe_details.close()
+    print('Given_file closed for read only mode')
+
+# abstracts values from data variable to split into two different lists
+finally:
+    recipe_list = data['recipe_list']
+    all_ingredients = data['all_ingredients']
