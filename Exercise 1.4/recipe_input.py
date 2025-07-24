@@ -2,6 +2,7 @@ import pickle
 
 recipe_list = []
 all_ingredients = []
+n = int(input("How many recipes would you like to have? "))
 
 # allows user to input a recipe of choice
 
@@ -15,6 +16,22 @@ def take_recipe():
               'ingredients': ingredients, }
     recipe['difficulty'] = calc_difficulty(recipe)
     return recipe
+
+
+# for loop that loops over the take_recipe function the amount of times the user specifies and also review for
+# ingredients that need to be added the all_ingredients list
+
+
+for i in range(n):
+    recipe = take_recipe()
+    recipe_list.append(recipe)
+    for ingredient in recipe['ingredients']:
+        if ingredient not in all_ingredients:
+            all_ingredients.append(ingredient)
+            print(ingredient + ' added to your list')
+        else:
+            print(ingredient + ' is already on your list!')
+
 
 # function that determines how difficult the recipe is
 
