@@ -8,21 +8,20 @@ def take_recipe():
     cooking_time = int(input("Please give the cooking time in minutes: "))
     ingredients = input(
         "Please list your ingredients here (please note to put a comma between each ingredient): ").split(', ')
-    difficulty = calc_difficulty()
     recipe = {'recipe_name': recipe_name, 'cooking_time': cooking_time,
-              'ingredients': ingredients, 'difficulty': difficulty}
+              'ingredients': ingredients, }
+    recipe['difficulty'] = calc_difficulty(recipe)
     return recipe
 
 # function that determines how difficult the recipe is
 
 
-def calc_difficulty():
+def calc_difficulty(recipe):
     if recipe['cooking_time'] < 10 and len(recipe['ingredients']) < 4:
-        difficulty = 'Easy'
+        return 'Easy'
     elif recipe['cooking_time'] < 10 and len(recipe['ingredients']) >= 4:
-        difficulty = 'Medium'
+        return 'Medium'
     elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) < 4:
-        difficulty = 'Intermediate'
+        return 'Intermediate'
     elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
-        difficulty = 'Hard'
-    recipe['difficulty'] = difficulty
+        return 'Hard'
