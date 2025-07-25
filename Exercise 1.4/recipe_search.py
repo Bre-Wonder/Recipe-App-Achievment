@@ -47,7 +47,9 @@ else:
     print('Name convention done correctly')
 
 try:
-    my_file = open(named_file_2, )
+    with open(named_file_2, 'wb') as recipe_lookup:
+        pickle.dump(data, recipe_lookup)
+
 
 # runs an error if file is not found in the correct file path or not found at all
 except FileNotFoundError:
