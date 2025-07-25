@@ -11,9 +11,11 @@ def display_recipe(recipe):
 
 def search_ingredients(data):
     print('All Ingredients ---')
+    # adds index number to each ingredient in the list
     for index, ingredient in enumerate(data['all_ingredients']):
         print(f"{index}: {ingredient}")
 
+    # allows user to pick out an ingredient based on its index number
     try:
         index_number_chosen = int(input(
             'Please select number from index of ingredients: '))
@@ -25,6 +27,7 @@ def search_ingredients(data):
     except IndexError:
         print('That index number does not exist in you current index')
 
+    # if no errors are found, gives a list of recipes that have the selected ingredient in it
     else:
         matching_recipe = []
         for recipe in data['recipe_list']:
@@ -38,6 +41,7 @@ def search_ingredients(data):
             print('No recipes contain this ingredient')
 
 
+# allows user to slect name for .bin file
 named_file_2 = input(
     'What is the name of the file where you would like to store the data for your recipes? ')
 if not named_file_2.endswith('.bin'):
@@ -46,6 +50,7 @@ if not named_file_2.endswith('.bin'):
 else:
     print('Name convention done correctly')
 
+# opens file and sets data equal to the loaded file
 try:
     with open(named_file_2, 'rb') as recipe_lookup:
         data = pickle.load(recipe_lookup)
@@ -55,5 +60,6 @@ try:
 except FileNotFoundError:
     print('File not found, please select another file')
 
+# executes function
 else:
     search_ingredients(data)
