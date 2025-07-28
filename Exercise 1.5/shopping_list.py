@@ -21,4 +21,21 @@ class ShoppingList(object):
 
             # prints the contents of self.shopping_list
     def view_list(self):
+        print('Here is your shopping list: ')
         print(self.shopping_list)
+
+
+PetStoreShoppingList = ShoppingList("Pet Store Shopping List")
+
+PetStoreShoppingList.add_item('dog food')
+PetStoreShoppingList.add_item('frisbee')
+PetStoreShoppingList.add_item('bowl')
+PetStoreShoppingList.add_item('collars')
+PetStoreShoppingList.add_item('flea collars')
+
+PetStoreShoppingList.remove_item('flea collars')
+
+# Second instance of trying to add 'frisbee' to the shopping list to see if it recognizes its a second request
+PetStoreShoppingList.add_item('frisbee')
+
+PetStoreShoppingList.view_list()
