@@ -44,6 +44,6 @@ class Height(object):
 
 
 # Test
-Height(4, 6) > Height(4, 5)
-Height(4, 5) >= Height(4, 5)
-Height(5, 9) != Height(5, 10)
+print(Height(4, 6) > Height(4, 5))
+print(Height(4, 5) >= Height(4, 5))
+print(Height(5, 9) != Height(5, 10))
