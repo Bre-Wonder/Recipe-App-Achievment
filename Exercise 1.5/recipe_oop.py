@@ -1,7 +1,7 @@
 class Recipe(object):
     def __init__(self, name, ingredients, cooking_time):
         self.name = name
-        # self.ingredients = ingredients[] make ingredients into a list
+        self.ingredients = ingredients
         self.cooking_time = cooking_time
         self.difficulty = self.calculate_difficulty()
 
@@ -25,9 +25,13 @@ class Recipe(object):
     def set_cooking_time(self, cooking_time):
         self.cooking_time = cooking_time
 
-    def add_ingredients(self, ingredients_length):
+    def add_ingredients(self, ingredients):
+        for ingredient in ingredients:
+            self.ingredients.append(ingredient)
+            self.update_all_ingredients()
 
-        update_all_ingredients()
+    def get_ingredients(self, ingredients):
+        return self.ingredients
 
     def calculate_difficulty(self, cooking_time, ingredients, difficulty):
         if cooking_time < 10 and len(ingredients) < 4:
