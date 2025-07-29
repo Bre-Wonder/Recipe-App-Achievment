@@ -63,7 +63,12 @@ class Recipe(object):
             if ingredient not in Recipe.all_ingredients:
                 Recipe.all_ingredients.append(ingredient)
 
-    def recipe_search():
+    def recipe_search(data, search_term):
+        for search_term in data:
+            data.search_ingredient(search_term)
+            if ingredient
+            else:
+                print(__str__(data))
 
 
 tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
