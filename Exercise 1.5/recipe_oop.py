@@ -5,6 +5,30 @@ class Recipe(object):
         self.cooking_time = cooking_time
         self.difficulty = self.calculate_difficulty()
 
+    def __str__(self):
+        output = str('Recipe Information ---\n')
+        + str('Name: ') + str(self.name)
+        + '\n' + str('Ingredients: ') + str(self.ingredients)
+        + '\n' + str('Cooking Time in minutes: ') + str(self.cooking_time)
+        + '\n' + str('Difficulty: ') + str(self.difficulty)
+        return output
+
+    def get_name(self):
+        return self.name
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_cooking_time(self):
+        return self.cooking_time
+
+    def set_cooking_time(self, cooking_time):
+        self.cooking_time = cooking_time
+
+    def add_ingredients(self, ingredients_length):
+
+        update_all_ingredients()
+
     def calculate_difficulty(self, cooking_time, ingredients, difficulty):
         if cooking_time < 10 and len(ingredients) < 4:
             return 'Easy'
