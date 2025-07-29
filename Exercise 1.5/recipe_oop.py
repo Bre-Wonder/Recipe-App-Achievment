@@ -49,6 +49,12 @@ class Recipe(object):
         self.difficulty = self.calculate_difficulty()
         return self.difficulty
 
+    def search_ingredient(self, ingredients):
+        if ingredients in self.ingredients:
+            return True
+        else:
+            return False
+
 
 tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
 coffee = Recipe('Coffee', ['Coffee Powder', 'Sugar', 'Water'], 5)
