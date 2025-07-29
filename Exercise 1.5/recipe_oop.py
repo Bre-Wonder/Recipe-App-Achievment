@@ -43,6 +43,11 @@ class Recipe(object):
         elif cooking_time >= 10 and len(ingredients) >= 4:
             return 'Hard'
 
+    # no idea if this is right yet
+    def get_difficulty(self, difficulty):
+        return difficulty
+        self.calculate_difficulty()
+
 
 tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
 coffee = Recipe('Coffee', ['Coffee Powder', 'Sugar', 'Water'], 5)
