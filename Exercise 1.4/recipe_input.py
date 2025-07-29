@@ -1,4 +1,5 @@
 import pickle
+import os
 
 recipe_list = []
 all_ingredients = []
@@ -59,10 +60,12 @@ if not named_file.endswith('.bin'):
 else:
     print('Name convention done correctly')
 
+redefine_file_path = os.path.join(os.getcwd(), named_file)
+
 
 # opens binary file and gives the read command
 try:
-    recipe_details = open(named_file, 'rb')
+    recipe_details = open(redefine_file_path, 'rb')
     data = pickle.load(recipe_details)
 
 # runs an error if file is not found in the correct file path or not found at all
@@ -92,5 +95,5 @@ finally:
     all_ingredients = data['all_ingredients']
     all_ingredients.sort()
 
-    with open(named_file, 'wb') as recipe_details:
+    with open(redefine_file_path, 'wb') as recipe_details:
         pickle.dump(data, recipe_details)
