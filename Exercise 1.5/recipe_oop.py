@@ -6,11 +6,13 @@ class Recipe(object):
         self.difficulty = self.calculate_difficulty()
 
     def __str__(self):
-        output = str('Recipe Information ---\n')
-        + str('Name: ') + str(self.name)
-        + '\n' + str('Ingredients: ') + str(self.ingredients)
-        + '\n' + str('Cooking Time in minutes: ') + str(self.cooking_time)
-        + '\n' + str('Difficulty: ') + str(self.difficulty)
+        output = (
+            'Recipe Information ---\n'
+            + 'Name: ' + str(self.name)
+            + '\nIngredients: ' + str(self.ingredients)
+            + '\nCooking Time in minutes: ' + str(self.cooking_time)
+            + '\nDifficulty: ' + self.difficulty
+        )
         return output
 
     def get_name(self):
@@ -30,23 +32,22 @@ class Recipe(object):
             self.ingredients.append(ingredient)
             self.update_all_ingredients()
 
-    def get_ingredients(self, ingredients):
+    def get_ingredients(self):
         return self.ingredients
 
-    def calculate_difficulty(self, cooking_time, ingredients, difficulty):
-        if cooking_time < 10 and len(ingredients) < 4:
+    def calculate_difficulty(self):
+        if self.cooking_time < 10 and len(self.ingredients) < 4:
             return 'Easy'
-        elif cooking_time < 10 and len(ingredients) >= 4:
+        elif self.cooking_time < 10 and len(self.ingredients) >= 4:
             return 'Medium'
-        elif cooking_time >= 10 and len(ingredients) < 4:
+        elif self.cooking_time >= 10 and len(self.ingredients) < 4:
             return 'Intermediate'
-        elif cooking_time >= 10 and len(ingredients) >= 4:
+        elif self.cooking_time >= 10 and len(self.ingredients) >= 4:
             return 'Hard'
 
     # no idea if this is right yet
-    def get_difficulty(self, difficulty):
-        return difficulty
-        self.calculate_difficulty()
+    def get_difficulty(self):
+        return self.calculate_difficulty()
 
 
 tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
