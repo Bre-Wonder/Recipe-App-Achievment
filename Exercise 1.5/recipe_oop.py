@@ -1,4 +1,7 @@
 class Recipe(object):
+
+    all_ingredients = []
+
     def __init__(self, name, ingredients, cooking_time):
         self.name = name
         self.ingredients = ingredients
@@ -54,6 +57,11 @@ class Recipe(object):
             return True
         else:
             return False
+
+    def update_all_ingredients(self):
+        for ingredient in self.ingredients:
+            if ingredient not in Recipe.all_ingredients:
+                Recipe.all_ingredients.append(ingredient)
 
 
 tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
