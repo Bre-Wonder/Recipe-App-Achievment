@@ -14,3 +14,11 @@ class Recipe(object):
             return 'Intermediate'
         elif cooking_time >= 10 and len(ingredients) >= 4:
             return 'Hard'
+
+
+tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
+coffee = Recipe('Coffee', ['Coffee Powder', 'Sugar', 'Water'], 5)
+cake = Recipe('Cake', ['Sugar', 'Butter', 'Eggs',
+              'Vanilla Essence', 'Flour', 'Baking Powder', 'Milk'], 50)
+banana_smoothie = Recipe('Banana Smoothie', [
+                         'Bananas', 'Milk', 'Peanut Butter', 'Sugar', 'Ice Cubes'], 5)
