@@ -70,7 +70,7 @@ try:
 
 # runs an error if file is not found in the correct file path or not found at all
 except FileNotFoundError:
-    print('File not found, please select another file')
+    print('File not found, file now created')
     data = {
         'recipe_list': recipe_list,
         'all_ingredients': all_ingredients
@@ -97,3 +97,5 @@ finally:
 
     with open(redefine_file_path, 'wb') as recipe_details:
         pickle.dump(data, recipe_details)
+
+    print('Binary file saved successfully')
