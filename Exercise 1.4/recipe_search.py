@@ -63,3 +63,4 @@ except FileNotFoundError:
 # executes function
 else:
     search_ingredients(data)
+    print('Success')
