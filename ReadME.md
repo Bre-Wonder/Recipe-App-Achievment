@@ -4,7 +4,7 @@
 The objective of this project is to build out the command line version of a Recipe App that will build out in a later project as a web app.
 
 ### Technologies Used:
-Python | virtualenvwrapper | ipython shell |
+Python | virtualenvwrapper | ipython shell | MySQL
 
 
 ### How to start this Project:
@@ -39,6 +39,6 @@ Python can be used in virtual environments and run in command line. The virtual 
 ### What would I do differently? 
 
 
-GitHub Repository site: 
+GitHub Repository site: https://github.com/Bre-Wonder/Recipe-App-Achievment
 
 Live Site:  
