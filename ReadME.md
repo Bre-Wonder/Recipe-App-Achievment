@@ -4,7 +4,7 @@
 The objective of this project is to build out the command line version of a Recipe App that will build out in a later project as a web app.
 
 ### Technologies Used:
-Python | virtualenvwrapper | ipython shell | MySQL
+Python | virtualenvwrapper | ipython shell | mySQL
 
 
 ### How to start this Project:
