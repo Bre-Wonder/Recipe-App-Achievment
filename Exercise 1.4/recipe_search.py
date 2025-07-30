@@ -44,16 +44,18 @@ def search_ingredients(data):
 
 # allows user to slect name for .bin file
 named_file_2 = input(
-    'What is the name of the file where you would like to store the data for your recipes? ')
+    'What is the name of the file where you are storing your recipes: ')
 if not named_file_2.endswith('.bin'):
     named_file_2 += '.bin'
     print('Your file name did not include .bin at the end. It has been added to your file name.')
 else:
     print('Name convention done correctly')
 
+redefine_file_path_2 = os.path.join(os.getcwd(), named_file_2)
+
 # opens file and sets data equal to the loaded file
 try:
-    with open(named_file_2, 'rb') as recipe_lookup:
+    with open(redefine_file_path_2, 'rb') as recipe_lookup:
         data = pickle.load(recipe_lookup)
 
 
