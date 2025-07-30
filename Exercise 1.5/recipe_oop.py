@@ -10,7 +10,7 @@ class Recipe(object):
 
     def __str__(self):
         output = (
-            'Recipe Information ---\n'
+            'Recipe Information\n'
             + 'Name: ' + str(self.name)
             + '\nIngredients: ' + str(self.ingredients)
             + '\nCooking Time in minutes: ' + str(self.cooking_time)
@@ -79,6 +79,21 @@ banana_smoothie = Recipe('Banana Smoothie', [
 
 recipe_list = [tea, coffee, cake, banana_smoothie]
 
-print(recipe_search('Water'))
-print(recipe_search('Sugar'))
-print(recipe_search('Bananas'))
+
+# found_ingredients = [recipe_search(data, 'Water'), recipe_search(data, 'Sugar'), recipe_search(data, 'Bananas')]
+
+print('Your Recipes -- ')
+for recipe in recipe_list:
+    print(recipe)
+print('-------------------')
+
+print('Recipes with Water --')
+recipe_search(recipe_list, 'Water')
+print('-------------------')
+
+print('Recipes with Sugar --')
+recipe_search(recipe_list, 'Sugar')
+print('-------------------')
+
+print('Recipes with Bananas --')
+recipe_search(recipe_list, 'Bananas')
