@@ -62,11 +62,12 @@ def search_recipe(conn, cursor):
     results = cursor.fetchall()
 
     for ingredient in results:
-        if ingredient not in all_ingredients:
-            all_ingredients.append(ingredient)
-            print(ingredient + ' added to your list')
+        ingredient_string = ingredient[0]
+        if ingredient_string not in all_ingredients:
+            all_ingredients.append(ingredient_string)
+            print(ingredient_string + ' added to your list')
         else:
-            print(ingredient + ' is already on your list!')
+            print(ingredient_string + ' is already on your list!')
 
     # adds index number to each ingredient in the list
     for index, ingredient in enumerate(all_ingredients):
@@ -96,7 +97,7 @@ def search_recipe(conn, cursor):
                 matching_recipe.append(name)
 
             if matching_recipe:
-                print('Recipes conataining '{search_ingredient}': ')
+                print('Recipes conataining "{output}": ')
                 for name in matching_recipe:
                     print("- {name}")
             else:
@@ -128,17 +129,17 @@ def update_recipe(conn, cursor):
     if selected_column == 'cooking_time':
         cooking_time = int(updated_value)
         cursor.execute(
-            'SLECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id))
+            'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id))
         ingredients = cursor.fetchone()[0].split(', ')
         difficulty = calculate_difficulty(cooking_time, ingredients)
 
         cursor.execute('UPDATE recipes SET cooking_time = %s, difficulty = %s WHERE id = %s',
-                       cooking_time, difficulty, selected_recipe_id)
+                       (cooking_time, difficulty, selected_recipe_id))
 
     elif selected_column == 'ingredients':
         ingredients = cursor.fetchone()[0].split(', ')
         cursor.execute(
-            'SLECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
+            'SELECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
         cooking_time = cursor.fetchone()[0]
         difficulty = calculate_difficulty(cooking_time, ingredients)
 
@@ -146,8 +147,9 @@ def update_recipe(conn, cursor):
                        ingredients, difficulty, selected_recipe_id)
 
     else:
-        cursor.execute(
-            'UPDATE recipes SET {selected_column} = %s WHERE id = %s', (updated_value, selected_recipe_id))
+        sql = 'UPDATE recipes SET {selected_column} = %s WHERE id = %s', (
+            updated_value, selected_recipe_id)
+        cursor.execute(sql, (updated_value, selected_recipe_id))
 
     # commit changes
     conn.commit()
@@ -188,6 +190,7 @@ def delete_recipe(conn, cursor):
 
 
 def main_menu(conn, cursor):
+    choice = ''
     while (choice != 'quit'):
         print('MAIN MENU')
         print('----------------------')
