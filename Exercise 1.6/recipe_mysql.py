@@ -180,8 +180,8 @@ def delete_recipe(conn, cursor):
     if selected_recipe_id not in recipe_ids:
         print('That recipe id does not exist')
     else:
-        cursor.execute(
-            'DELETE FROM recipes WHERE id = %s', (selected_recipe_id))
+        selected_delete = 'DELETE FROM recipes WHERE id = %s'
+        cursor.execute(selected_delete, selected_recipe_id)
 
     # commit changes
     conn.commit()
