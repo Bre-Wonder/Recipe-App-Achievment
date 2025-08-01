@@ -58,8 +58,9 @@ all_ingredients = []
 
 def search_recipe(conn, cursor):
 
-    # variable that represents the mySQL command to find the column with just ingredients
-    results = 'SELECT * FROM recipes WHERE ingredients'
+    cursor.execute('SELECT ingredients FROM recipes')
+    results = cursor.fetchall()
+
     for ingredient in results:
         if ingredient not in all_ingredients:
             all_ingredients.append(ingredient)
@@ -67,14 +68,46 @@ def search_recipe(conn, cursor):
         else:
             print(ingredient + ' is already on your list!')
 
-    cursor.execute(results)
+    # adds index number to each ingredient in the list
+    for index, ingredient in enumerate(all_ingredients):
+        print(f"{index}: {ingredient}")
+
+    # allows user to pick out an ingredient based on its index number
+    try:
+        search_ingredient = int(input(
+            'Please select number from index of ingredients: '))
+
+    except ValueError:
+        print('Value must be a number')
+
+    except IndexError:
+        print('That index number does not exist in you current index')
+
+    # if no errors are found, gives a list of recipes that have the selected ingredient in it
+    else:
+        output = all_ingredients[search_ingredient][0]
+        matching_recipe = []
+
+        cursor.execute('SELECT name, ingredients FROM recipes')
+        recipe_data = cursor.fetchall()
+
+        for name, ingredient in recipe_data:
+            if output.lower() in ingredients.lower():
+                matching_recipe.append(name)
+
+            if matching_recipe:
+                print('Recipes conataining '{search_ingredient}': ')
+                for name in matching_recipe:
+                    print("- {name}")
+            else:
+                print('No recipes contain this ingredient')
 
     # commit changes
     conn.commit()
 
 
 def update_recipe(conn, cursor):
-    cursor.execute('SELECT * from recipes')
+    cursor.execute('SELECT * FROM recipes')
     results = cursor.fetchall()
 
     print('Here are you recipes already created: ')
@@ -122,7 +155,7 @@ def update_recipe(conn, cursor):
 
 
 def delete_recipe(conn, cursor):
-    cursor.execute('SELECT * from recipes')
+    cursor.execute('SELECT * FROM recipes')
     results = cursor.fetchall()
     recipe_ids = []
 
