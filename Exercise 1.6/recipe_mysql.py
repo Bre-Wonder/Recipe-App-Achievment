@@ -29,18 +29,28 @@ def create_recipe(conn, cursor):
     ingredients = input(
         "Please list your ingredients here (please note to put a comma between each ingredient): ").split(', ')
     difficulty = calculate_difficulty(cooking_time, ingredients)
-    return difficulty
+
+    stringed_ingredients = ", ".join(ingredients)
+
+    # executing command for inputs to go into MySQL database - recipes
+    sql = 'INSERT INTO recipes (name, ingredients, cooking_time, difficulty) VALUES (%s, %s, %s, %s)'
+    values = (recipe_name, stringed_ingredients, cooking_time, difficulty)
+    cursor.execute(sql, values)
+
+    # committing changes
+    conn.commit()
 
 
 def calculate_difficulty(cooking_time, ingredients):
     if cooking_time < 10 and len(ingredients) < 4:
-        return 'Easy'
+        difficulty = 'Easy'
     elif cooking_time < 10 and len(ingredients) >= 4:
-        return 'Medium'
+        difficulty = 'Medium'
     elif cooking_time >= 10 and len(ingredients) < 4:
-        return 'Intermediate'
+        difficulty = 'Intermediate'
     elif cooking_time >= 10 and len(ingredients) >= 4:
-        return 'Hard'
+        difficulty = 'Hard'
+    return difficulty
 
 
 def search_recipe(conn, cursor):
