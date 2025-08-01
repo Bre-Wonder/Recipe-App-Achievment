@@ -53,13 +53,77 @@ def calculate_difficulty(cooking_time, ingredients):
     return difficulty
 
 
+all_ingredients = []
+
+
 def search_recipe(conn, cursor):
 
+    # variable that represents the mySQL command to find the column with just ingredients
+    results = 'SELECT * FROM recipes WHERE ingredients'
+    for ingredient in results:
+        if ingredient not in all_ingredients:
+            all_ingredients.append(ingredient)
+            print(ingredient + ' added to your list')
+        else:
+            print(ingredient + ' is already on your list!')
 
-def update_recipe(conn, cusor):
+    cursor.execute(results)
+
+    # commit changes
+    conn.commit()
+
+
+def update_recipe(conn, cursor):
+    cursor.execute('SELECT * from recipes')
+    results = cursor.fetchall()
+
+    print('Here are you recipes already created: ')
+    for row in results:
+        print('ID: ', row[0])
+        print('Name: ', row[1])
+        print('Ingredients: ', row[2])
+        print('Cooking Time in minutes: ', row[3])
+        print('Difficulty: ', row[4])
+
+    selected_recipe_id = int(
+        input("Please select the number of which recipe you would like to update: "))
+    selected_column = input('Which column of your would you like to update? ')
+    updated_value = input(
+        'What new value would you like to assign? ')
+
+    if selected_column == 'cooking_time':
+        cooking_time = int(updated_value)
+        cursor.execute(
+            'SLECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id))
+        ingredients = cursor.fetchone()[0].split(', ')
+        difficulty = calculate_difficulty(cooking_time, ingredients)
+
+        cursor.execute('UPDATE recipes SET cooking_time = %s, difficulty = %s WHERE id = %s',
+                       cooking_time, difficulty, selected_recipe_id)
+
+    elif selected_column == 'ingredients':
+        ingredients = cursor.fetchone()[0].split(', ')
+        cursor.execute(
+            'SLECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
+        cooking_time = cursor.fetchone()[0]
+        difficulty = calculate_difficulty(cooking_time, ingredients)
+
+        cursor.execute('UPDATE recipes SET ingredients = %s, difficulty = %s WHERE id = %s',
+                       ingredients, difficulty, selected_recipe_id)
+
+    else:
+        cursor.execute(
+            'UPDATE recipes SET {selected_column} = %s WHERE id = %s', (updated_value, selected_recipe_id))
+
+    # commit changes
+    conn.commit()
+    print('You updated your recipe successfully')
 
 
 def delete_recipe(conn, cursor):
+
+    cursor.execute()
+    conn.commit()
 
 
 def main_menu(conn, cursor):
