@@ -87,7 +87,8 @@ def update_recipe(conn, cursor):
 
     selected_recipe_id = int(
         input("Please select the number of which recipe you would like to update: "))
-    selected_column = input('Which column of your would you like to update? ')
+    selected_column = input(
+        'Which column of your would you like to update name, ingredients, or cooking_time? ')
     updated_value = input(
         'What new value would you like to assign? ')
 
@@ -117,13 +118,40 @@ def update_recipe(conn, cursor):
 
     # commit changes
     conn.commit()
-    print('You updated your recipe successfully')
+    print('Success! You updated your recipe.')
 
 
 def delete_recipe(conn, cursor):
+    cursor.execute('SELECT * from recipes')
+    results = cursor.fetchall()
+    recipe_ids = []
 
-    cursor.execute()
+    print('Here are you recipes already created: ')
+    for row in results:
+        print('ID: ', row[0])
+        print('Name: ', row[1])
+        print('Ingredients: ', row[2])
+        print('Cooking Time in minutes: ', row[3])
+        print('Difficulty: ', row[4])
+        recipe_ids.append(row[0])
+
+    try:
+        selected_recipe_id = int(
+            input("Please select the number of which recipe you would like to delete: "))
+    except ValueError:
+        print('Invalid input. Please enter a number')
+        return
+
+    if selected_recipe_id not in recipe_ids:
+        print('That recipe id does not exist')
+    else:
+        cursor.execute(
+            'DELETE FROM recipes WHERE id = %s', (selected_recipe_id))
+
+    # commit changes
     conn.commit()
+
+    print('Your selected recipe has been deleted')
 
 
 def main_menu(conn, cursor):
