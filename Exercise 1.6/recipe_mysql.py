@@ -92,6 +92,7 @@ def search_recipe(conn, cursor):
         cursor.execute('SELECT name, ingredients FROM recipes')
         recipe_data = cursor.fetchall()
 
+# something wrong just below here
         for name, ingredient in recipe_data:
             if output.lower() in ingredients.lower():
                 matching_recipe.append(name)
