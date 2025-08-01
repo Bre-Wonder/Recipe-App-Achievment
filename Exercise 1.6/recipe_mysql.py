@@ -1,7 +1,7 @@
 import mysql.connector
 
 # initializes connection object
-conn = mysqul.connector.connect(
+conn = mysql.connector.connect(
     host='localhost',
     user='cf-python',
     passwd='password'
@@ -23,6 +23,35 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS recipes(
 )''')
 
 
+def create_recipe(conn, cursor):
+    recipe_name = str(input("Please give the name of the recipe here: "))
+    cooking_time = int(input("Please give the cooking time in minutes: "))
+    ingredients = input(
+        "Please list your ingredients here (please note to put a comma between each ingredient): ").split(', ')
+    difficulty = calculate_difficulty(cooking_time, ingredients)
+    return difficulty
+
+
+def calculate_difficulty(cooking_time, ingredients):
+    if cooking_time < 10 and len(ingredients) < 4:
+        return 'Easy'
+    elif cooking_time < 10 and len(ingredients) >= 4:
+        return 'Medium'
+    elif cooking_time >= 10 and len(ingredients) < 4:
+        return 'Intermediate'
+    elif cooking_time >= 10 and len(ingredients) >= 4:
+        return 'Hard'
+
+
+def search_recipe(conn, cursor):
+
+
+def update_recipe(conn, cusor):
+
+
+def delete_recipe(conn, cursor):
+
+
 def main_menu(conn, cursor):
     while (choice != 'quit'):
         print('MAIN MENU')
@@ -33,7 +62,7 @@ def main_menu(conn, cursor):
         print('2. Search for a recipe')
         print('3. Update a recipe')
         print('4. Delete a recipe')
-        print('Type 'quit' to exit the program')
+        print("Type 'quit' to exit the program")
         choice = input('Your Choice: ')
 
         if choice == '1':
@@ -49,15 +78,3 @@ def main_menu(conn, cursor):
 
 
 main_menu(conn, cursor)
-
-
-def create_recipe(conn, cursor):
-
-
-def search_recipe(conn, cursor):
-
-
-def update_recipe(conn, cusor):
-
-
-def delete_recipe(conn, cursor):
