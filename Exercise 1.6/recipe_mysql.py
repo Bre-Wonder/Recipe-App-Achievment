@@ -7,6 +7,8 @@ conn = mysql.connector.connect(
     passwd='password'
 )
 
+all_ingredients = []
+
 cursor = conn.cursor()
 
 # creates database
@@ -53,9 +55,6 @@ def calculate_difficulty(cooking_time, ingredients):
     return difficulty
 
 
-all_ingredients = []
-
-
 def search_recipe(conn, cursor):
 
     cursor.execute('SELECT ingredients FROM recipes')
@@ -63,11 +62,14 @@ def search_recipe(conn, cursor):
 
     for ingredient in results:
         ingredient_string = ingredient[0]
-        if ingredient_string not in all_ingredients:
-            all_ingredients.append(ingredient_string)
-            print(ingredient_string + ' added to your list')
-        else:
-            print(ingredient_string + ' is already on your list!')
+        individualize_ingredient = [i.strip()
+                                    for i in ingredient_string.split(',')]
+        for i in individualize_ingredient:
+            if i not in all_ingredients:
+                all_ingredients.append(i)
+                print(f'{i} added to your list')
+            else:
+                print(f'{i} is already on your list!')
 
     # adds index number to each ingredient in the list
     for index, ingredient in enumerate(all_ingredients):
@@ -85,24 +87,23 @@ def search_recipe(conn, cursor):
         print('That index number does not exist in you current index')
 
     # if no errors are found, gives a list of recipes that have the selected ingredient in it
+
+    output = all_ingredients[search_ingredient]
+    matching_recipe = []
+
+    cursor.execute('SELECT name, ingredients FROM recipes')
+    recipe_data = cursor.fetchall()
+
+    for name, ingredient_string in recipe_data:
+        if output.lower() in ingredient_string.lower():
+            matching_recipe.append(name)
+
+    if matching_recipe:
+        print(f'Recipes conataining "{output}": ')
+        for name in matching_recipe:
+            print(f"- {name}")
     else:
-        output = all_ingredients[search_ingredient][0]
-        matching_recipe = []
-
-        cursor.execute('SELECT name, ingredients FROM recipes')
-        recipe_data = cursor.fetchall()
-
-# something wrong just below here
-        for name, ingredient in recipe_data:
-            if output.lower() in ingredients.lower():
-                matching_recipe.append(name)
-
-            if matching_recipe:
-                print('Recipes conataining "{output}": ')
-                for name in matching_recipe:
-                    print("- {name}")
-            else:
-                print('No recipes contain this ingredient')
+        print('No recipes contain this ingredient')
 
     # commit changes
     conn.commit()
