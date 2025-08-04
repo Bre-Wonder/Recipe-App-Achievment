@@ -39,6 +39,8 @@ def create_recipe(conn, cursor):
     values = (recipe_name, stringed_ingredients, cooking_time, difficulty)
     cursor.execute(sql, values)
 
+    print('Your recipe has been created and added')
+
     # committing changes
     conn.commit()
 
@@ -113,6 +115,7 @@ def update_recipe(conn, cursor):
     cursor.execute('SELECT * FROM recipes')
     results = cursor.fetchall()
 
+    # prints out a list of alreayd existing recipes so the user knows what they can choose from
     print('Here are you recipes already created: ')
     for row in results:
         print('ID: ', row[0])
@@ -121,35 +124,64 @@ def update_recipe(conn, cursor):
         print('Cooking Time in minutes: ', row[3])
         print('Difficulty: ', row[4])
 
-    selected_recipe_id = int(
-        input("Please select the number of which recipe you would like to update: "))
+    # user selects updates by answering input questions
+    try:
+        selected_recipe_id = int(
+            input("Please select the number of which recipe you would like to update: "))
+    except ValueError:
+        print('Invalid input for recipe ID')
+        return
+
     selected_column = input(
         'Which column of your would you like to update name, ingredients, or cooking_time? ')
+
+    if selected_column not in ['name', 'ingredients', 'cooking_time']:
+        print('Invalid selection for column')
+        return
+
     updated_value = input(
         'What new value would you like to assign? ')
 
     if selected_column == 'cooking_time':
-        cooking_time = int(updated_value)
+        try:
+            cooking_time = int(updated_value)
+        except ValueError:
+            print('Cooking time must be an integer number')
+            return
+
         cursor.execute(
             'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id))
-        ingredients = cursor.fetchone()[0].split(', ')
+        result = cursor.fetchone()
+        if not result:
+            print('Not recipe found with that ID')
+            return
+
+        ingredients = result[0].split(', ')
         difficulty = calculate_difficulty(cooking_time, ingredients)
 
         cursor.execute('UPDATE recipes SET cooking_time = %s, difficulty = %s WHERE id = %s',
                        (cooking_time, difficulty, selected_recipe_id))
 
     elif selected_column == 'ingredients':
-        ingredients = cursor.fetchone()[0].split(', ')
+        ingredients_list = updated_value.split(', ')
         cursor.execute(
             'SELECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
-        cooking_time = cursor.fetchone()[0]
-        difficulty = calculate_difficulty(cooking_time, ingredients)
+        result = cursor.fetchone()
+        if not result:
+            print('Not recipe found with that ID')
+            return
+        try:
+            cooking_time = int(result[0])
+        except:
+            print('Stored cooking time in database is not a valid number. May be comnig back as a string value rather than integer')
+            return
+        difficulty = calculate_difficulty(cooking_time, ingredients_list)
 
         cursor.execute('UPDATE recipes SET ingredients = %s, difficulty = %s WHERE id = %s',
                        ingredients, difficulty, selected_recipe_id)
 
     else:
-        sql = 'UPDATE recipes SET {selected_column} = %s WHERE id = %s', (
+        sql = 'UPDATE recipes SET name = %s WHERE id = %s', (
             updated_value, selected_recipe_id)
         cursor.execute(sql, (updated_value, selected_recipe_id))
 
@@ -181,14 +213,24 @@ def delete_recipe(conn, cursor):
 
     if selected_recipe_id not in recipe_ids:
         print('That recipe id does not exist')
+        return
+
+    cursor.execute('SELECT name FROM recipes WHERE id = %s',
+                   (selected_recipe_id,))
+    result = cursor.fetchone()
+    if result:
+        recipe_name = result[0]
+
     else:
-        selected_delete = 'DELETE FROM recipes WHERE id = %s'
-        cursor.execute(selected_delete, selected_recipe_id)
+        print('Recipe not found')
+
+    selected_delete = 'DELETE FROM recipes WHERE id = %s'
+    cursor.execute(selected_delete, (selected_recipe_id,))
 
     # commit changes
     conn.commit()
 
-    print('Your selected recipe has been deleted')
+    print(f'"{recipe_name}" recipe has been deleted')
 
 
 def main_menu(conn, cursor):
