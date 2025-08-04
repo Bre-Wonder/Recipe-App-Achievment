@@ -213,6 +213,8 @@ def main_menu(conn, cursor):
             update_recipe(conn, cursor)
         elif choice == '4':
             delete_recipe(conn, cursor)
+        elif choice == 'quit':
+            print('You selected quit. Program has stopped.')
         else:
             print('Selection not valid. Please select another number')
 
