@@ -175,7 +175,7 @@ def update_recipe(conn, cursor):
         difficulty = calculate_difficulty(cooking_time, ingredients_list)
 
         cursor.execute('UPDATE recipes SET ingredients = %s, difficulty = %s WHERE id = %s',
-                       updated_value, difficulty, selected_recipe_id)
+                       (updated_value, difficulty, selected_recipe_id))
 
     else:
         sql = 'UPDATE recipes SET name = %s WHERE id = %s'
