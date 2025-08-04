@@ -150,7 +150,7 @@ def update_recipe(conn, cursor):
             return
 
         cursor.execute(
-            'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id,))
+            'SELECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
         result = cursor.fetchone()
         if not result:
             print('Not recipe found with that ID')
@@ -165,16 +165,13 @@ def update_recipe(conn, cursor):
     elif selected_column == 'ingredients':
         ingredients_list = updated_value.split(', ')
         cursor.execute(
-            'SELECT ingredients FROM recipes WHERE id = %s', (selected_recipe_id,))
+            'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id,))
         result = cursor.fetchone()
         if not result:
             print('Not recipe found with that ID')
             return
-        try:
-            cooking_time = int(result[0])
-        except:
-            print('Stored cooking time in database is not a valid number. May be comnig back as a string value rather than integer')
-            return
+
+        cooking_time = result[0]
         difficulty = calculate_difficulty(cooking_time, ingredients_list)
 
         cursor.execute('UPDATE recipes SET ingredients = %s, difficulty = %s WHERE id = %s',
