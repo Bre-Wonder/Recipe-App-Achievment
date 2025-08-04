@@ -156,8 +156,7 @@ def update_recipe(conn, cursor):
             print('Not recipe found with that ID')
             return
 
-        cooking_time = result[0]
-        ingredients = result[1].split(', ')
+        ingredients = result[0].split(', ')
         difficulty = calculate_difficulty(cooking_time, ingredients)
 
         cursor.execute('UPDATE recipes SET cooking_time = %s, difficulty = %s WHERE id = %s',
