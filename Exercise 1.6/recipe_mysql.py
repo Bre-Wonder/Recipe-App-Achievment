@@ -150,13 +150,14 @@ def update_recipe(conn, cursor):
             return
 
         cursor.execute(
-            'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id))
+            'SELECT cooking_time FROM recipes WHERE id = %s', (selected_recipe_id,))
         result = cursor.fetchone()
         if not result:
             print('Not recipe found with that ID')
             return
 
-        ingredients = result[0].split(', ')
+        cooking_time = result[0]
+        ingredients = result[1].split(', ')
         difficulty = calculate_difficulty(cooking_time, ingredients)
 
         cursor.execute('UPDATE recipes SET cooking_time = %s, difficulty = %s WHERE id = %s',
@@ -178,12 +179,11 @@ def update_recipe(conn, cursor):
         difficulty = calculate_difficulty(cooking_time, ingredients_list)
 
         cursor.execute('UPDATE recipes SET ingredients = %s, difficulty = %s WHERE id = %s',
-                       ingredients, difficulty, selected_recipe_id)
+                       updated_value, difficulty, selected_recipe_id)
 
     else:
-        sql = 'UPDATE recipes SET name = %s WHERE id = %s', (
-            updated_value, selected_recipe_id)
-        cursor.execute(sql, (updated_value, selected_recipe_id))
+        sql = 'UPDATE recipes SET name = %s WHERE id = %s'
+        cursor.execute(sql, (updated_value, selected_recipe_id,))
 
     # commit changes
     conn.commit()
