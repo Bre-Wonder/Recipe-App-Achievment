@@ -25,9 +25,11 @@ class Recipe(Base):
     cooking_time = Column(Integer)
     difficulty = Column(String(20))
 
+    # quick read for recipe info
     def __repr__(self):
         return "<Recipe ID: " + str(self.id) + "-" + self.name + "Difficulty Level: " + str(self.difficulty) + ">"
 
+    # puts recipe data into a string format for the user
     def __str__(self):
         print('Recipe Information ---')
         print(f"{self.id} + ' Recipe: ' + {self.name}")
@@ -35,17 +37,25 @@ class Recipe(Base):
         print(f"Ingredients: " + {', '.join(self.ingredients)})
         print(f"Difficulty Level: {self.difficulty}")
 
-    # Come back to this one
-    def calculate_difficulty(cooking_time, ingredients):
+    # calculates the difficulty of each recipe based on cooking time and number of ingredients
+    def calculate_difficulty(self, cooking_time, ingredients):
         if cooking_time < 10 and len(ingredients) < 4:
-            difficulty = 'Easy'
+            self.difficulty = 'Easy'
         elif cooking_time < 10 and len(ingredients) >= 4:
-            difficulty = 'Medium'
+            self.difficulty = 'Medium'
         elif cooking_time >= 10 and len(ingredients) < 4:
-            difficulty = 'Intermediate'
+            self.difficulty = 'Intermediate'
         elif cooking_time >= 10 and len(ingredients) >= 4:
-            difficulty = 'Hard'
+            self.difficulty = 'Hard'
         return self.difficulty
+
+    def return_ingredients_as_list(self):
+        if not self.ingredients:
+            return []
+        else:
+            ingredients_list = [ingredient.strip()
+                                for ingredient in self.ingredients.split(', ')]
+            return ingredients_list
 
 
 Base.metadata.create_all(engine)
