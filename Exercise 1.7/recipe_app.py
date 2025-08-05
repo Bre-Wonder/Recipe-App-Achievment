@@ -28,19 +28,25 @@ class Recipe(Base):
     def __repr__(self):
         return "<Recipe ID: " + str(self.id) + "-" + self.name + "Difficulty Level: " + str(self.difficulty) + ">"
 
-    def __str__
+    def __str__(self):
+        print('Recipe Information ---')
+        print(f"Recipe ID: {self.id}")
+        print(f"Recipe: {self.name}")
+        print(f"Cooking Time (in minutes): {self.cooking_time}")
+        print(f"Ingredients: " + {', '.join(self.ingredients)})
+        print(f"Difficulty Level: {self.difficulty}")
 
     # Come back to this one
     def calculate_difficulty(cooking_time, ingredients):
-    if cooking_time < 10 and len(ingredients) < 4:
-        difficulty = 'Easy'
-    elif cooking_time < 10 and len(ingredients) >= 4:
-        difficulty = 'Medium'
-    elif cooking_time >= 10 and len(ingredients) < 4:
-        difficulty = 'Intermediate'
-    elif cooking_time >= 10 and len(ingredients) >= 4:
-        difficulty = 'Hard'
-    return self.difficulty
+        if cooking_time < 10 and len(ingredients) < 4:
+            difficulty = 'Easy'
+        elif cooking_time < 10 and len(ingredients) >= 4:
+            difficulty = 'Medium'
+        elif cooking_time >= 10 and len(ingredients) < 4:
+            difficulty = 'Intermediate'
+        elif cooking_time >= 10 and len(ingredients) >= 4:
+            difficulty = 'Hard'
+        return self.difficulty
 
 
 Base.metadata.create_all(engine)
