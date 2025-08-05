@@ -30,8 +30,7 @@ class Recipe(Base):
 
     def __str__(self):
         print('Recipe Information ---')
-        print(f"Recipe ID: {self.id}")
-        print(f"Recipe: {self.name}")
+        print(f"{self.id} + ' Recipe: ' + {self.name}")
         print(f"Cooking Time (in minutes): {self.cooking_time}")
         print(f"Ingredients: " + {', '.join(self.ingredients)})
         print(f"Difficulty Level: {self.difficulty}")
