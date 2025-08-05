@@ -105,3 +105,39 @@ def create_recipe():
     # adding and commiting change to database
     session.add(recipe_entry)
     session.commit()
+
+
+def main_menu():
+    choice = ''
+    while (choice != 'quit'):
+        print('MAIN MENU')
+        print('----------------------')
+        print('----------------------')
+        print('What would you like to do? Pick a number that corresponds with the option you would like to select')
+        print('1. Create a new recipe')
+        print('2. View all your recipes')
+        print('3. Search for a recipe by an ingredient')
+        print('4. Edit a recipe')
+        print('5. Delete a recipe')
+        print("Type 'quit' to exit the program")
+        choice = input('Your Choice: ')
+
+        if choice == '1':
+            create_recipe()
+        elif choice == '2':
+            view_all_recipes()
+        elif choice == '3':
+            search_by_ingrediets()
+        elif choice == '4':
+            edit_recipe()
+        elif choice == '5':
+            delete_recipe()
+        elif choice == 'quit':
+            print('You selected quit. Program has stopped.')
+            session.close()
+            engine.dispose()
+        else:
+            print('Selection not valid. Please select a number between 1-5 or "quit".')
+
+
+main_menu()
