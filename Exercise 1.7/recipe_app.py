@@ -31,11 +31,13 @@ class Recipe(Base):
 
     # puts recipe data into a string format for the user
     def __str__(self):
-        print('Recipe Information ---')
-        print(f"{self.id} + ' Recipe: ' + {self.name}")
-        print(f"Cooking Time (in minutes): {self.cooking_time}")
-        print(f"Ingredients: " + {', '.join(self.ingredients)})
-        print(f"Difficulty Level: {self.difficulty}")
+        return (
+            "Recipe Information *5\n"
+            f"ID: {self.id} | Recipe: {self.name}\n"
+            f"Cooking Time (in minutes): {self.cooking_time}\n"
+            f"Ingredients:  {', '.join(self.return_ingredients_as_list())}\n"
+            f"Difficulty Level: {self.difficulty}"
+        )
 
     # calculates the difficulty of each recipe based on cooking time and number of ingredients
     def calculate_difficulty(self, cooking_time, ingredients):
@@ -59,3 +61,47 @@ class Recipe(Base):
 
 
 Base.metadata.create_all(engine)
+
+# allows user to create and add a recipe
+
+
+def create_recipe():
+    while True:
+        recipe_name = str(input("Please give the name of the recipe here: "))
+        if len(recipe_name) > 50:
+            print('Name you have selected is not under 50 characters.')
+        elif not recipe_name.isalpha():
+            print('Recipe name must only contain letters')
+        else:
+            break
+
+    while True:
+        cooking_time = input("Please give the cooking time in minutes: ")
+        if not cooking_time.isnumeric():
+            print(
+                'Your input must be a number. Please select a number to respresnet time in minutes')
+        else:
+            break
+
+    ingredients = []
+    num_of_ingredients = int(
+        input('How many ingredients does your recipe have?'))
+
+    for i in range(num_of_ingredients):
+        ing = input(f'Please give ingredient number {i + 1}: ')
+        ingredients.append(ing)
+
+    ingredients_stringed = ', '.join(ingredients)
+
+    # creates a Recipe object
+    recipe_entry = Recipe(
+        name=recipe_name,
+        ingredients=ingredients_stringed,
+        cooking_time=cooking_time
+    )
+
+    recipe_entry.calculate_difficulty(recipe_entry.cooking_time, ingredients)
+
+    # adding and commiting change to database
+    session.add(recipe_entry)
+    session.commit()
