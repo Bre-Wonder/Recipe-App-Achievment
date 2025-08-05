@@ -66,6 +66,7 @@ Base.metadata.create_all(engine)
 
 
 def create_recipe():
+    # input for name of the recipe
     while True:
         recipe_name = str(input("Please give the name of the recipe here: "))
         if len(recipe_name) > 50:
@@ -75,6 +76,7 @@ def create_recipe():
         else:
             break
 
+    # input for cooking time
     while True:
         cooking_time = input("Please give the cooking time in minutes: ")
         if not cooking_time.isnumeric():
@@ -83,6 +85,7 @@ def create_recipe():
         else:
             break
 
+    # input for ingredients
     ingredients = []
     num_of_ingredients = int(
         input('How many ingredients does your recipe have?'))
@@ -91,6 +94,7 @@ def create_recipe():
         ing = input(f'Please give ingredient number {i + 1}: ')
         ingredients.append(ing)
 
+    # makes ingredient list into a string
     ingredients_stringed = ', '.join(ingredients)
 
     # creates a Recipe object
@@ -106,7 +110,62 @@ def create_recipe():
     session.add(recipe_entry)
     session.commit()
 
+# a user selects a recipe to delete and deletes if from the table and the database
 
+
+def delete_recipe():
+    # query to find all recipes in the database
+    all_recipes = session.query(Recipe).all()
+
+    # looking to see if there are recipes in the database table, otherwise sends user back to main menu
+    if len(all_recipes) <= 0:
+        return main_menu()
+
+    # gives us a list of all recipes which they can delete
+    recipe_ids = []
+
+    print('Here are you recipes already created: ')
+    for row in all_recipes:
+        print('ID: ', row.id)
+        print('Name: ', row.name)
+        recipe_ids.append(row.id)
+
+    # user input for which recipe they would like to delete by id
+    try:
+        user_selected_id = int(input(
+            'Please enter the ID of the recipe that you would like to delete:'))
+
+    # checks for value to be a number
+    except ValueError:
+        print('Invalid input. Please enter a number')
+        return
+
+    # checks to see if id matches one in the database, otherwiese throws an error
+    if user_selected_id not in recipe_ids:
+        print('That recipe id does not exist')
+        return main_menu()
+
+    recipe_to_be_deleted = session.query(Recipe).filter(
+        Recipe.id == user_selected_id).one()
+
+    # confirms with user that this is the recipe they would like to delete
+    user_confirmation = input(
+        f'Are you sure you would like to delete your {recipe_to_be_deleted.name} recipe? Please type "yes" or "no".')
+    if user_confirmation == 'no':
+        print('Recipe get. Returning you to main menu')
+        return main_menu()
+    elif user_confirmation == 'yes':
+        # deletes recipe from table and database
+        session.delete(recipe_to_be_deleted)
+        # commits changes
+        session.commit()
+        print('Your recipe has been successfully deleted')
+
+    else:
+        print('Error: Invalid entry. Please type yes or no')
+
+
+# this hold the main menu that the user sees when they first start up the application
 def main_menu():
     choice = ''
     while (choice != 'quit'):
