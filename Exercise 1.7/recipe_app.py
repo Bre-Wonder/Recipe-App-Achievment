@@ -190,7 +190,7 @@ def search_by_ingredients():
 
     print(
         f'Here are the Recipes containing {", ".join(search_ingredients)} *7')
-    print(recipes_with_matching_ingredient)
+    print(recipes_with_matching_ingredient.__str__())
 
 
 def edit_recipe():
