@@ -27,7 +27,7 @@ class Recipe(Base):
 
     # quick read for recipe info
     def __repr__(self):
-        return "<Recipe ID: " + str(self.id) + "-" + self.name + "Difficulty Level: " + str(self.difficulty) + ">"
+        return f"<Recipe ID: {self.id} - {self.name} | Difficulty Level: {self.difficulty}>"
 
     # puts recipe data into a string format for the user
     def __str__(self):
@@ -101,7 +101,7 @@ def create_recipe():
     recipe_entry = Recipe(
         name=recipe_name,
         ingredients=ingredients_stringed,
-        cooking_time=cooking_time
+        cooking_time=int(cooking_time)
     )
 
     recipe_entry.calculate_difficulty(recipe_entry.cooking_time, ingredients)
@@ -172,7 +172,7 @@ def search_by_ingredients():
         return None
 
     except IndexError:
-        print('That index number does not exist in you current index')
+        print('That index number does not exist in your current index')
         return None
 
     # initializing empty list
