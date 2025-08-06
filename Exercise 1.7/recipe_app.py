@@ -113,13 +113,32 @@ def create_recipe():
 # a user selects a recipe to delete and deletes if from the table and the database
 
 
+def view_all_recipes():
+    # query to find all recipes in the database
+    all_recipes = session.query(Recipe).all()
+
+    # looking to see if there are recipes in the database table, otherwise sends user back to main menu
+    if not all_recipes:
+        return None
+
+    for recipe in all_recipes:
+        print("-" * 15)
+        print(recipe)
+
+
+def search_by_ingredients():
+
+
+def edit_recipe():
+
+
 def delete_recipe():
     # query to find all recipes in the database
     all_recipes = session.query(Recipe).all()
 
     # looking to see if there are recipes in the database table, otherwise sends user back to main menu
-    if len(all_recipes) <= 0:
-        return main_menu()
+    if not all_recipes:
+        return None
 
     # gives us a list of all recipes which they can delete
     recipe_ids = []
@@ -143,7 +162,7 @@ def delete_recipe():
     # checks to see if id matches one in the database, otherwiese throws an error
     if user_selected_id not in recipe_ids:
         print('That recipe id does not exist')
-        return main_menu()
+        return None
 
     recipe_to_be_deleted = session.query(Recipe).filter(
         Recipe.id == user_selected_id).one()
@@ -153,7 +172,7 @@ def delete_recipe():
         f'Are you sure you would like to delete your {recipe_to_be_deleted.name} recipe? Please type "yes" or "no".')
     if user_confirmation == 'no':
         print('Recipe get. Returning you to main menu')
-        return main_menu()
+        return None
     elif user_confirmation == 'yes':
         # deletes recipe from table and database
         session.delete(recipe_to_be_deleted)
@@ -186,7 +205,7 @@ def main_menu():
         elif choice == '2':
             view_all_recipes()
         elif choice == '3':
-            search_by_ingrediets()
+            search_by_ingredients()
         elif choice == '4':
             edit_recipe()
         elif choice == '5':
