@@ -119,6 +119,7 @@ def view_all_recipes():
 
     # looking to see if there are recipes in the database table, otherwise sends user back to main menu
     if not all_recipes:
+        print('No recipes in your database. Returning to main menu.')
         return None
 
     for recipe in all_recipes:
@@ -168,11 +169,11 @@ def search_by_ingredients():
         search_ingredients = [all_ingredients[i] for i in selected_ingredients]
 
     except ValueError:
-        print('Value must be a number')
+        print('Value must be a number. Returning to main menu.')
         return None
 
     except IndexError:
-        print('That index number does not exist in your current index')
+        print('That index number does not exist in your current index. Returning to main menu.')
         return None
 
     # initializing empty list
@@ -201,8 +202,130 @@ def edit_recipe():
     if recipe_count == 0:
         return None
 
-    # adding and commiting change to database
-    session.add()
+    # query to find all recipes in the database
+    results = session.query(Recipe.id, Recipe.name).all()
+    recipe_ids = [row.id for row in results]
+
+    # print out of all the recipes that the user already has stored in database
+    print('Here are you recipes in your database: ')
+    for row in results:
+        print(f"ID: {row.id} | Name: {row.name}")
+    print("_" * 10)
+
+    # asks user which recipe they would like to update
+    try:
+        selected_recipe_id = int(
+            input("Please select the ID number of which recipe you would like to update: "))
+        if selected_recipe_id not in recipe_ids:
+            print('Selection does not match a recipe. Returning to main menu.')
+            return None
+
+    except ValueError:
+        print('Value must be a number. Returning to main menu')
+        return None
+
+    # uses request to select one object from the database
+    recipe_to_edit = session.query(Recipe).filter(
+        Recipe.id == {selected_recipe_id}).one()
+
+    # enumerate values from object recipe that was selected
+    print('\nWhich field would you like to update')
+    print(f'1. Name: {recipe_to_edit.name}')
+    print(f'2. Ingredients: {recipe_to_edit.ingredients}')
+    print(f'3. Cooking Time: {recipe_to_edit.cooking_time}')
+
+    # asks the user which value of the selected object they would like to update
+    try:
+        user_input = int(input(
+            'Please type the number that corresponds with the field you would like to update: '))
+        if user_input != [1, 2, 3]:
+            print('Not a valid input. Please type either 1, 2, or 3.')
+
+    except ValueError:
+        print('Value must be a number')
+        return None
+
+    # if user selects 2 for ingredients
+    if user_input == 2:
+        print("Would you like to:")
+        print("1 - Add an ingredient")
+        print("2 - Remove an ingredient")
+        try:
+            user_ask = int(input('Enter 1 to add or 2 to remove'))
+        except ValueError:
+            print('Value must be a number')
+            return None
+
+        # if user selects add
+        if user_ask == 1:
+            try:
+                add_new_ingredient = str(
+                    input('Please type the name of the new ingredient you would like to add: '))
+            except ValueError:
+                print('Value must be a string')
+                return None
+
+            # Convert ingredients string to a list
+            ingredients_list = [
+                i.strip() for i in recipe_to_edit.ingredients.split(",") if i.strip()]
+
+            # Check for duplicates
+            if add_new_ingredient in ingredients_list:
+                print('Ingredient already in recipe')
+            else:
+                ingredients_list.append(add_new_ingredient)
+                recipe_to_edit.ingredients = ", ".join(ingredients_list)
+        # if user selects remove
+        elif user_ask == 2:
+            try:
+                remove_ingredient = str(
+                    input('Please type the name of the ingredient you would like to remove: '))
+            except ValueError:
+                print('Value must be a string')
+                return None
+
+            ingredients_list = [
+                i.strip() for i in recipe_to_edit.ingredients.split(",") if i.strip()]
+
+            if remove_ingredient not in ingredients_list:
+                print('Ingredient not found in this recipe')
+            else:
+                ingredients_list.remove(remove_ingredient)
+                recipe_to_edit.ingredients = ", ".join(ingredients_list)
+
+        else:
+            print('Invalid response. Returning to main menu')
+            return None
+
+    # if user selects 3 for cooking_time
+    elif user_input == 3:
+        try:
+            new_time = int(input("Enter the new cooking time (in minutes): "))
+
+        except ValueError:
+            print('Cooking time must be a number. Returning to main menu')
+            return None
+
+        else:
+            session.query(Recipe).filter(Recipe.cooking_time == recipe_to_edit.cooking_time).update(
+                {Recipe.cooking_time: new_time})
+
+    # if user selects 1 for name
+    elif user_input == 1:
+        new_name = input("Enter the new name for the recipe: ")
+        if len(new_name) > 50:
+            print('Name you have selected is not under 50 characters.')
+        elif not new_name.isalpha():
+            print('Recipe name must only contain letters')
+        else:
+            session.query(Recipe).filter(
+                Recipe.name == recipe_to_edit.name).update({Recipe.name: new_name})
+
+    else:
+        print('Selection not valid. Please index that corresponds with either "name", "ingredients", or "cooking_time" ')
+        return None
+
+    # commiting change to database
     session.commit()
 
 
@@ -212,6 +335,7 @@ def delete_recipe():
 
     # looking to see if there are recipes in the database table, otherwise sends user back to main menu
     if not all_recipes:
+        print('No recipes in your database. Returning to main menu.')
         return None
 
     # gives us a list of all recipes which they can delete
