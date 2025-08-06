@@ -123,7 +123,7 @@ def view_all_recipes():
 
     for recipe in all_recipes:
         print("-" * 15)
-        print(recipe)
+        print(recipe.__str__())
 
 
 def search_by_ingredients():
@@ -155,11 +155,11 @@ def search_by_ingredients():
     for index, ingredient in enumerate(all_ingredients):
         print(f"{index}: {ingredient}")
 
-    print(*15)
+    print("-" * 15)
 
     # allows user to pick out an ingredient based on its index number
-    user_selection = int(input(
-        'Please select number from index of ingredients to find recipes with that ingredient [seperate each number with a space]: '))
+    user_selection = input(
+        'Please select number from index of ingredients to find recipes with that ingredient [seperate each number with a space]: ')
 
     try:
         # converts users input into a list of integers
@@ -177,6 +177,20 @@ def search_by_ingredients():
 
     # initializing empty list
     conditions = []
+
+    # creates a request to the database for the recipes which contain those ingredients and adds it to a list called conditions, which returns a list of those recipes
+    for ing in search_ingredients:
+        like_term = f'%{ing}%'
+        conditions.append(Recipe.ingredients.like(like_term))
+
+    from sqlalchemy import or_
+
+    recipes_with_matching_ingredient = session.query(
+        Recipe).filter(or_(*conditions)).all()
+
+    print(
+        f'Here are the Recipes containing {", ".join(search_ingredients)} *7')
+    print(recipes_with_matching_ingredient)
 
 
 def edit_recipe():
