@@ -127,6 +127,56 @@ def view_all_recipes():
 
 
 def search_by_ingredients():
+  # query to count all recipes in the database
+    recipe_count = session.query(Recipe).count()
+
+    # looking to see if there are recipes in the database table, otherwise sends user back to main menu
+    if recipe_count == 0:
+        return None
+
+    # query for just the column in the table that stores ingredients
+    results = session.query(Recipe.ingredients).all()
+
+    # initializing empty list
+    all_ingredients = []
+
+    for ingredient in results:
+        ingredient_string = ingredient[0]
+        individualize_ingredient = [i.strip()
+                                    for i in ingredient_string.split(',')]
+        for i in individualize_ingredient:
+            if i not in all_ingredients:
+                all_ingredients.append(i)
+                print(f'{i} added to your list')
+            else:
+                print(f'{i} is already on your list!')
+
+    # adds index number to each ingredient in the list
+    for index, ingredient in enumerate(all_ingredients):
+        print(f"{index}: {ingredient}")
+
+    print(*15)
+
+    # allows user to pick out an ingredient based on its index number
+    user_selection = int(input(
+        'Please select number from index of ingredients to find recipes with that ingredient [seperate each number with a space]: '))
+
+    try:
+        # converts users input into a list of integers
+        selected_ingredients = [int(i) for i in user_selection.strip().split()]
+        # convers the integers numbers to ingredients based on their index number
+        search_ingredients = [all_ingredients[i] for i in selected_ingredients]
+
+    except ValueError:
+        print('Value must be a number')
+        return None
+
+    except IndexError:
+        print('That index number does not exist in you current index')
+        return None
+
+    # initializing empty list
+    conditions = []
 
 
 def edit_recipe():
