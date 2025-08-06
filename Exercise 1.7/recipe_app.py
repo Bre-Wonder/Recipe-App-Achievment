@@ -33,7 +33,7 @@ class Recipe(Base):
     # puts recipe data into a string format for the user
     def __str__(self):
         return (
-            "Recipe Information ----------\n"
+            "Recipe Information ---\n"
             f"ID: {self.id} | Recipe: {self.name}\n"
             f"Cooking Time (in minutes): {self.cooking_time}\n"
             f"Ingredients:  {', '.join(self.return_ingredients_as_list())}\n"
@@ -89,7 +89,7 @@ def create_recipe():
     # input for ingredients
     ingredients = []
     num_of_ingredients = int(
-        input('How many ingredients does your recipe have?'))
+        input('How many ingredients does your recipe have? '))
 
     for i in range(num_of_ingredients):
         ing = input(f'Please give ingredient number {i + 1}: ')
@@ -110,6 +110,7 @@ def create_recipe():
     # adding and commiting change to database
     session.add(recipe_entry)
     session.commit()
+    print('New recipe successfully added')
 
 # a user selects a recipe to delete and deletes if from the table and the database
 
@@ -124,7 +125,7 @@ def view_all_recipes():
         return None
 
     for recipe in all_recipes:
-        print("-" * 15)
+        print("-" * 35)
         print(recipe.__str__())
 
 
@@ -157,7 +158,7 @@ def search_by_ingredients():
     for index, ingredient in enumerate(all_ingredients):
         print(f"{index}: {ingredient}")
 
-    print("-" * 15)
+    print('-' * 35)
 
     # allows user to pick out an ingredient based on its index number
     user_selection = input(
@@ -191,7 +192,7 @@ def search_by_ingredients():
         Recipe).filter(or_(*conditions)).all()
 
     print(
-        f'Here are the Recipes containing {", ".join(search_ingredients)} *7')
+        f'Here are the Recipes containing {", ".join(search_ingredients)}:')
     print(recipes_with_matching_ingredient.__str__())
 
 
@@ -252,7 +253,7 @@ def edit_recipe():
         print("1 - Add an ingredient")
         print("2 - Remove an ingredient")
         try:
-            user_ask = int(input('Enter 1 to add or 2 to remove'))
+            user_ask = int(input('Enter 1 to add or 2 to remove: '))
         except ValueError:
             print('Value must be a number')
             return None
@@ -348,14 +349,14 @@ def delete_recipe():
 
     print('Here are you recipes already created: ')
     for row in all_recipes:
-        print('ID: ', row.id)
-        print('Name: ', row.name)
+        print(f"ID: {row.id} | Name: {row.name}")
+        print("_" * 35)
         recipe_ids.append(row.id)
 
     # user input for which recipe they would like to delete by id
     try:
         user_selected_id = int(input(
-            'Please enter the ID of the recipe that you would like to delete:'))
+            'Please enter the ID of the recipe that you would like to delete: '))
 
     # checks for value to be a number
     except ValueError:
@@ -372,7 +373,7 @@ def delete_recipe():
 
     # confirms with user that this is the recipe they would like to delete
     user_confirmation = input(
-        f'Are you sure you would like to delete your {recipe_to_be_deleted.name} recipe? Please type "yes" or "no".')
+        f'Are you sure you would like to delete your {recipe_to_be_deleted.name} recipe? Please type "yes" or "no". ')
     if user_confirmation == 'no':
         print('Recipe get. Returning you to main menu')
         return None
@@ -391,8 +392,8 @@ def delete_recipe():
 def main_menu():
     choice = ''
     while (choice != 'quit'):
-        print('MAIN MENU')
         print('----------------------')
+        print('MAIN MENU')
         print('----------------------')
         print('What would you like to do? Pick a number that corresponds with the option you would like to select')
         print('1. Create a new recipe')
