@@ -194,6 +194,16 @@ def search_by_ingredients():
 
 
 def edit_recipe():
+  # query to count all recipes in the database
+    recipe_count = session.query(Recipe).count()
+
+    # looking to see if there are recipes in the database table, otherwise sends user back to main menu
+    if recipe_count == 0:
+        return None
+
+    # adding and commiting change to database
+    session.add()
+    session.commit()
 
 
 def delete_recipe():
