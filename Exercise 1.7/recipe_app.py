@@ -1,6 +1,7 @@
 from sqlalchemy.types import Integer, String
 from sqlalchemy import Column
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -32,7 +33,7 @@ class Recipe(Base):
     # puts recipe data into a string format for the user
     def __str__(self):
         return (
-            "Recipe Information *5\n"
+            "Recipe Information ----------\n"
             f"ID: {self.id} | Recipe: {self.name}\n"
             f"Cooking Time (in minutes): {self.cooking_time}\n"
             f"Ingredients:  {', '.join(self.return_ingredients_as_list())}\n"
@@ -226,7 +227,7 @@ def edit_recipe():
 
     # uses request to select one object from the database
     recipe_to_edit = session.query(Recipe).filter(
-        Recipe.id == {selected_recipe_id}).one()
+        Recipe.id == selected_recipe_id).one()
 
     # enumerate values from object recipe that was selected
     print('\nWhich field would you like to update')
@@ -238,7 +239,7 @@ def edit_recipe():
     try:
         user_input = int(input(
             'Please type the number that corresponds with the field you would like to update: '))
-        if user_input != [1, 2, 3]:
+        if user_input not in [1, 2, 3]:
             print('Not a valid input. Please type either 1, 2, or 3.')
 
     except ValueError:
