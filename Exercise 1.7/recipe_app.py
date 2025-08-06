@@ -325,8 +325,12 @@ def edit_recipe():
         print('Selection not valid. Please index that corresponds with either "name", "ingredients", or "cooking_time" ')
         return None
 
+    # recalculating difficulty once function has been udpated
+    recipe_to_edit.calculate_difficulty()
+
     # commiting change to database
     session.commit()
+    print('Success! You updated your recipe.')
 
 
 def delete_recipe():
