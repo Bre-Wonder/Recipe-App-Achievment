@@ -41,14 +41,15 @@ class Recipe(Base):
         )
 
     # calculates the difficulty of each recipe based on cooking time and number of ingredients
-    def calculate_difficulty(self, cooking_time, ingredients):
-        if cooking_time < 10 and len(ingredients) < 4:
+    def calculate_difficulty(self):
+        ingredients = self.return_ingredients_as_list()
+        if self.cooking_time < 10 and len(ingredients) < 4:
             self.difficulty = 'Easy'
-        elif cooking_time < 10 and len(ingredients) >= 4:
+        elif self.cooking_time < 10 and len(ingredients) >= 4:
             self.difficulty = 'Medium'
-        elif cooking_time >= 10 and len(ingredients) < 4:
+        elif self.cooking_time >= 10 and len(ingredients) < 4:
             self.difficulty = 'Intermediate'
-        elif cooking_time >= 10 and len(ingredients) >= 4:
+        elif self.cooking_time >= 10 and len(ingredients) >= 4:
             self.difficulty = 'Hard'
         return self.difficulty
 
@@ -105,7 +106,7 @@ def create_recipe():
         cooking_time=int(cooking_time)
     )
 
-    recipe_entry.calculate_difficulty(recipe_entry.cooking_time, ingredients)
+    recipe_entry.calculate_difficulty()
 
     # adding and commiting change to database
     session.add(recipe_entry)
