@@ -36,7 +36,4 @@ The choice that seems most advantageous for this project would be dictionary dat
 Python can be used in virtual environments and run in command line. The virtual environments keep the dependancies clear and organized since different scripts can require different dependancies. Having Pythong work in a command line is very convient as you can test the code even before it goes into a scrip file. Python also has a requirement.txt file that is really helpful if you want to know what an application is using and easily download that installation and modules to recreate the environment. 
 
 
-### What would I do differently? 
-
-
 GitHub Repository site: https://github.com/Bre-Wonder/Recipe-App-Achievment
