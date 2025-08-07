@@ -1,4 +1,4 @@
-# Recipe App Python
+# Recipe App Python with Django
 
 ### Project Description
 
