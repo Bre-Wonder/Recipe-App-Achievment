@@ -72,8 +72,8 @@ def create_recipe():
         recipe_name = str(input("Please give the name of the recipe here: "))
         if len(recipe_name) > 50:
             print('Name you have selected is not under 50 characters.')
-        elif not recipe_name.isalpha():
-            print('Recipe name must only contain letters')
+        elif not all(char.isalpha() or char.isspace() for char in recipe_name):
+            print('Recipe name must only contain letters and spaces')
         else:
             break
 
@@ -317,8 +317,8 @@ def edit_recipe():
         new_name = input("Enter the new name for the recipe: ")
         if len(new_name) > 50:
             print('Name you have selected is not under 50 characters.')
-        elif not new_name.isalpha():
-            print('Recipe name must only contain letters')
+        elif not all(char.isalpha() or char.isspace() for char in new_name):
+            print('Recipe name must only contain letters and spaces')
         else:
             session.query(Recipe).filter(
                 Recipe.name == recipe_to_edit.name).update({Recipe.name: new_name})
