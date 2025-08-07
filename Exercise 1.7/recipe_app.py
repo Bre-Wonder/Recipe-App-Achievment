@@ -212,7 +212,7 @@ def edit_recipe():
     print('Here are you recipes in your database: ')
     for row in results:
         print(f"ID: {row.id} | Name: {row.name}")
-    print("_" * 10)
+    print("-" * 35)
 
     # asks user which recipe they would like to update
     try:
@@ -350,7 +350,7 @@ def delete_recipe():
     print('Here are you recipes already created: ')
     for row in all_recipes:
         print(f"ID: {row.id} | Name: {row.name}")
-        print("_" * 35)
+        print("-" * 35)
         recipe_ids.append(row.id)
 
     # user input for which recipe they would like to delete by id
@@ -392,9 +392,9 @@ def delete_recipe():
 def main_menu():
     choice = ''
     while (choice != 'quit'):
-        print('----------------------')
+        print("-" * 35)
         print('MAIN MENU')
-        print('----------------------')
+        print("-" * 35)
         print('What would you like to do? Pick a number that corresponds with the option you would like to select')
         print('1. Create a new recipe')
         print('2. View all your recipes')
