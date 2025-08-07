@@ -40,5 +40,3 @@ Python can be used in virtual environments and run in command line. The virtual 
 
 
 GitHub Repository site: https://github.com/Bre-Wonder/Recipe-App-Achievment
-
-Live Site:  
