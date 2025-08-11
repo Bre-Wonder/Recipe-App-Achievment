@@ -1,6 +1,7 @@
 # Recipe App Python with Django
 
 ### Project Description
+A Python Django project built to store recipes in a database and a UI for users to interact with recipes by adding, deleting, updating or viewing. 
 
 ### Technologies Used:
 Python | virtualenvwrapper | Django
@@ -29,11 +30,20 @@ Python | virtualenvwrapper | Django
 * Run `pip install django` to install django framework
 * Check version of django by running this command in your terminal `django-admin --version`
 
+* Creating your project in Django. A Django project is built out with a Model View Template (MVT) type of architecture. It allows you to built out a database and UIs all within it structure. I have listed some suggestions below for consideration.
+  * To start your own project in the command line, be sure your have your virtual environment open in your root directory and run: `django-admin startproject <name chose for project>`
+  * Next it is a good idea to write out your schema for how you wanted your project and database to be built, know where you want different parts of your applicaiton to show up or be deined. 
+  * To creat an app inside your Django project run this command: `python manage.py startapp <name you have chosen for that app>`
+  * To create a superuser in the admin of djanago run this command: `python manage.py createsuperuser`
+      These are all steps that will serve you while creating a project in Django
+
 
 ### API Use
 
 
 ### Lessons Learned:
+
+* I've learned to structure my project in the way that Django requires with MVT type of architacture. One awesome advantage of this is that parts can be reused without have to re-written. If something from one project was applicaable to some other project, I could just re-use it, such as a login. 
 
 
 ### What would I do differently? 
