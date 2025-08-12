@@ -6,7 +6,7 @@ from django.db import models
 # Create your tests here.
 
 
-class BookModelTest(TestCase):
+class RecipeModelTest(TestCase):
 
     def setUpTestData():
         Recipe.objects.create(name='Spaghetti', ingredients='Meatballs, Noodles, Tomato Sauce',
