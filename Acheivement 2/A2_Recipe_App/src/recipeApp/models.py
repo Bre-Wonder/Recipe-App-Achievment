@@ -2,11 +2,11 @@ from django.db import models
 
 
 class Recipe(models.Model):
-    id =
-    name = models.CharField(max_length=120)
-    ingredients =
-    cooking_time =
-    difficulty =
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    ingredients = models.VarCHAR(max_length=255)
+    cooking_time = models.IntegerField()
+    difficulty = models.CharField(max_length=20)
     description = models.TextField()
 
     def __str__(self):
