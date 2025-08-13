@@ -8,7 +8,8 @@ class Recipe(models.Model):
     name = models.CharField(max_length=50)
     ingredients = models.CharField(max_length=255)
     cooking_time = models.IntegerField()
-    difficulty = models.CharField(max_length=25)
+    # blank=True allow the field to be empty and then autofilled
+    difficulty = models.CharField(max_length=25, blank=True)
     description = models.TextField()
     # come back to define "upload_to"
     pic = models.ImageField(upload_to='', default='no_picture.jpg')
@@ -28,6 +29,14 @@ class Recipe(models.Model):
         elif self.cooking_time >= 10 and len(ingredients) >= 4:
             self.difficulty = 'Hard'
         return self.difficulty
+
+    def return_ingredients_as_list(self):
+        if not self.ingredients:
+            return []
+        else:
+            ingredients_list = [ingredient.strip()
+                                for ingredient in self.ingredients.split(', ')]
+            return ingredients_list
 
     def save(self, *args, **kwargs):
         self.difficulty = self.calculate_difficulty()
