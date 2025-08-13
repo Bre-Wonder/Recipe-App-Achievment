@@ -1,0 +1,9 @@
+{% for object in object_list %} {% comment%}  access records from model (object_list) one at a time using for loop  {% endcomment%}
+
+{{object.name}} - {{object.pic}}{% comment%}  
+“object” refers to one record in the list/model. 
+You can access individual elements (columns) of the model (table) by writing object
+followed by dot (.) and the attribute name  {% endcomment%}
+
+   <br>
+{% endfor %}
