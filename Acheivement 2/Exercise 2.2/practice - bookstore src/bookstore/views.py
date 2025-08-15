@@ -1,4 +1,4 @@
-from django.shortcuts import render, request
+from django.shortcuts import render, redirect
 # libraries that django has for authentication
 from django.contrib.auth import authenticate, login
 # form django provides for authentication
