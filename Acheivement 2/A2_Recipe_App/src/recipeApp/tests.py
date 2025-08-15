@@ -10,7 +10,7 @@ class RecipeModelTest(TestCase):
 
     def setUpTestData():
         Recipe.objects.create(name='Spaghetti', ingredients='Meatballs, Noodles, Tomato Sauce',
-                              cooking_time=25, description='Gather around with your family for warm fall meal. The tomatoes are flavorful and the noodles hit the spot. Join in and enjoy this recipe.')
+                              cooking_time=25, difficulty='medium', description='Gather around with your family for warm fall meal. The tomatoes are flavorful and the noodles hit the spot. Join in and enjoy this recipe.')
 
     def test_recipe_name(self):
         # Get a recipe object to test
@@ -42,6 +42,16 @@ class RecipeModelTest(TestCase):
         # checkes if cooking_time is an integer
         self.assertIsInstance(field, models.IntegerField)
 
+    def test_difficulty_type(self):
+        # Get a recipe object to test
+        recipe = Recipe.objects.get(id=1)
+
+        # Get the metadata for the 'difficulty' field
+        field = recipe._meta.get_field('difficulty')
+
+        # Check if 'difficulty' is a CharField (string)
+        self.assertIsInstance(field, models.CharField)
+
     def test_recipe_description(self):
         # Get a recipe object to test
         recipe = Recipe.objects.get(id=1)
@@ -55,4 +65,4 @@ class RecipeModelTest(TestCase):
     def test_get_absolute_url(self):
         recipe = Recipe.objects.get(id=1)
         # get_absolute_url() should take you to the detail page of recipe #1
-        self.assertEqual(recipe.get_absolute_url(), '/books/list/1')
+        self.assertEqual(recipe.get_absolute_url(), '/list/1')
