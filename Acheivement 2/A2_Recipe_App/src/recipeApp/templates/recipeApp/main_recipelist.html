@@ -352,7 +352,7 @@
                     <img src="{{object.pic.url}}" alt="{{object.name}}" />
                     <h3>{{object.name}}</h3>
                     <div class="recipe-info">
-                        Click to view recipe details!
+                        <a href ="{{object.get_absolute_url}}"> Click here for recipe details! </a> 
                     </div>
                 </div>
                 {% endfor %}
