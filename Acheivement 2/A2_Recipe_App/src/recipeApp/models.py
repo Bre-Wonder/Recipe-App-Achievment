@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -41,3 +42,6 @@ class Recipe(models.Model):
     def save(self, *args, **kwargs):
         self.difficulty = self.calculate_difficulty()
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('recipeApp:detail', kwargs={'pk': self.pk})
