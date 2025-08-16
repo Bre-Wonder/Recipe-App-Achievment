@@ -152,8 +152,7 @@
         .yum-bubble {
             position: absolute;
             left: -120px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: -20px;
             font-family: 'Bangers', cursive;
             font-size: 2rem;
             color: #0D0D0D;
@@ -203,7 +202,7 @@
 
         /* Individual Recipe Widget */
         .recipe-widget {
-            background: #F2EDA0;
+            background: white;
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -236,7 +235,7 @@
         .recipe-widget:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            background: white;
+            background: #F2EDA0;
         }
 
         .recipe-widget img {
@@ -271,6 +270,27 @@
             border: 2px solid #0D0D0D;
             text-align: center;
             font-weight: 700;
+        }
+
+        .recipe-widget .recipe-info a {
+            text-decoration: none;
+            color: #0D0D0D;
+            font-weight: 700;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: #F2EDA0;
+            border: 2px solid #0D0D0D;
+            transition: all 0.3s ease;
+            font-family: 'Bangers', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .recipe-widget .recipe-info a:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Animations */
