@@ -44,6 +44,32 @@
             align-items: center;
         }
 
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0D0D0D;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #BDF288;
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 2px solid #0D0D0D;
+            display: inline-block;
+            font-size: 1rem;
+            box-shadow: 0 3px 8px rgba(189, 242, 136, 0.3);
+        }
+
+        .nav-links a:hover {
+            background: #F2EDA0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(242, 237, 160, 0.4);
+        }
+
         .logo {
             font-family: 'Bangers', cursive;
             font-size: 2.2rem;
@@ -339,6 +365,11 @@
         <div class="container">
             <div class="nav-content">
                 <div class="logo">Recipe Library</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#recipes">Recipes</a></li>
+                    <li><a href="#login">Login</a></li>
+                </ul>
             </div>
         </div>
     </nav>
