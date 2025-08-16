@@ -6,3 +6,9 @@
   {{form}}
   <button type="submit">Search</button>
 </form>
+
+{% if sales_df %}
+  {{sales_df|safe}}
+{% else %}
+   <h3> no data</h3>
+{% endif %}
