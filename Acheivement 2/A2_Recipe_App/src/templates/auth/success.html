@@ -150,17 +150,7 @@
             animation: bounce 0.6s ease;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: #0D0D0D;
-            background: #D2D9A0;
-            padding: 10px 30px;
-            border-radius: 50px;
-            display: inline-block;
-            box-shadow: 0 3px 10px rgba(210, 217, 160, 0.4);
-            text-align: center;
-        }
+
 
         .cta-buttons {
             display: flex;
@@ -182,14 +172,26 @@
         }
 
         .btn-primary {
-            background: #ff6b6b;
-            color: white;
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            background: #F2EDA0;
+            padding: 15px 40px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(242, 237, 160, 0.4);
+            text-align: center;
+            border: 3px solid #0D0D0D;
+            color: #0D0D0D;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transform: scale(1.05);
+            background: #BDF288;
+            box-shadow: 0 5px 15px rgba(189, 242, 136, 0.5);
         }
 
         .btn-secondary {
@@ -287,7 +289,6 @@
     <section class="hero" id="home">
         <div class="container">
             <h1>You have successfully Logged out!</h1>
-            <p>Come back again soon!</p>
             <div class="cta-buttons">
                 <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
             </div>
