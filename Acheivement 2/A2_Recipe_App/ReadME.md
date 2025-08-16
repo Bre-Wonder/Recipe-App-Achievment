@@ -4,7 +4,7 @@
 A Python Django project built to store recipes in a database and a UI for users to interact with recipes by adding, deleting, updating or viewing. 
 
 ### Technologies Used:
-Python | virtualenvwrapper | Django
+Python | virtualenvwrapper | Django | DataFrame(pandas) | matplotlib
 
 
 ### How to start this Project:
