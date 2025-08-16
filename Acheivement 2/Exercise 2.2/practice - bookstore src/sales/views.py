@@ -18,12 +18,13 @@ def records(request):
     form = SalesSearchForm(request.POST or None)
     # initializ datafram to None
     sales_df = None
+    chart = None
 
     # check if button is clicked
     if request.method == 'POST':
         book_title = request.POST.get('book_title')
         chart_type = request.POST.get('chart_type')
-        qs = Sale.objects.filter(book_name=book_title)
+        qs = Sale.objects.filter(book__name=book_title)
         if qs:
             sales_df = pd.DataFrame(qs.values())
         sales_df = sales_df.to_html
