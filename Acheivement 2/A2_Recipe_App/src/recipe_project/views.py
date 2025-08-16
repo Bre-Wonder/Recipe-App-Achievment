@@ -22,7 +22,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('list:list')
+                return redirect('recipeApp:list')
             else:
                 error_message = 'oooops... something went wrong'
 
@@ -38,4 +38,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return render(request, 'auth/success.html')
