@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 # feature of django that provider authentication
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # django form for authentication
 from django.contrib.auth.forms import AuthenticationForm
@@ -22,7 +22,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('recipe/list:main_recipelist')
+                return redirect('list:list')
             else:
                 error_message = 'oooops... something went wrong'
 
@@ -32,3 +32,10 @@ def login_view(request):
     }
 
     return render(request, 'auth/login.html', context)
+
+# function for logout functionality
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
