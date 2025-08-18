@@ -30,6 +30,8 @@
             {% csrf_token %}
             {{form}}
             <button type="submit" >Find Difficulty</button>
+            <br>
+            <img src="data:image/png;base64, {{chart|safe}}">
          
          </form>
     </div>
