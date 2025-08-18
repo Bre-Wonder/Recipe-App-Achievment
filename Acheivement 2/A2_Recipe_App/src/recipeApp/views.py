@@ -67,4 +67,9 @@ def IngredientSearch(request):
 
 
 def DifficultyChart(request):
-    return render(request, 'recipeApp/charts.html')
+    form = ChartForm(request.POST or None)
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'recipeApp/charts.html', context)
