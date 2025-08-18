@@ -26,7 +26,12 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" >Find Difficulty</button>
+         
+         </form>
     </div>
 </body>
 </html>
