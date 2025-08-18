@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Library - {{object.name}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Recipe Library</div>
+                <ul class="nav-links">
+                    <li><a href="{% url 'recipeApp:home' %}">Home</a></li>
+                    <li><a href="{% url 'recipeApp:list' %}">All Recipes</a></li>
+                    <li><a href ="{%url 'logout' %}"> Logout </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+    </div>
+</body>
+</html>
