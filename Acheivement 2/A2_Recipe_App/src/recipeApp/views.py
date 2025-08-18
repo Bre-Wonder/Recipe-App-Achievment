@@ -38,6 +38,15 @@ def IngredientSearch(request):
   # creates an instance of the form
     form = IngredientSearchForm(request.POST or None)
 
+    # checks to see if search button is clicked
+    if request.method == 'POST':
+        # reads recipe_title
+        recipe_title = request.POST.get('recipe_title')
+        # reads chart_type - going to comment this out for now since I'm not sure I will be using it here
+        # chart_type = request.POST.get('chart_type')
+        print(recipe_title)
+        # print(chart_type)
+
     # packs up dtat to be sent to template in the form of a dictionary
     context = {
         'form': form,
