@@ -12,6 +12,6 @@ from django import forms
 
 class IngredientSearchForm(forms.Form):
     # may need to be redifined later, correctly for recipe_ingredients
-    recipe_title = forms.CharField(max_length=120)
+    recipe_title = forms.CharField(max_length=120, label="Recipe Lookup")
     # only use this if I want them to appear on the same page - comment out for now
     # chart_type = forms.ChoiceField(choices=CHART_CHOICES)
