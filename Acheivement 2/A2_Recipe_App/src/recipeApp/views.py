@@ -4,6 +4,8 @@ from .models import Recipe
 from django.contrib.auth.mixins import LoginRequiredMixin
 # import form from forms.py
 from .forms import IngredientSearchForm
+# installed pandas, now importing it
+import pandas as pd
 
 
 # Create your views here.
@@ -37,6 +39,7 @@ def home(request):
 def IngredientSearch(request):
   # creates an instance of the form
     form = IngredientSearchForm(request.POST or None)
+    recipeApp_df = None
 
     # checks to see if search button is clicked
     if request.method == 'POST':
@@ -47,9 +50,36 @@ def IngredientSearch(request):
         print(recipe_title)
         # print(chart_type)
 
+        qs = Recipe.objects.filter(ingredients__icontains=recipe_title)
+        print(qs)
+        if qs:
+            recipeApp_df = pd.DataFrame(qs.values())
+            print(recipeApp_df)
+            recipeApp_df = recipeApp_df.to_html()
+
+        # print('Exploring querysets:')
+        # print('Case 1: Output of Recipe.objects.all()')
+        # qs = Recipe.objects.all()
+        # print(qs)
+
+        # print('Case 2: Output of Recipe.objects.filter(name__icontains=recipe_title)')
+        # qs = Recipe.objects.filter(ingredients__icontains=recipe_title)
+        # print(qs)
+
+        # print('Case 3: Output of qs.values')
+        # print(qs.values())
+
+        # print('Case 4: Output of qs.values_list()')
+        # print(qs.values_list())
+
+        # print('Case 5: Output of Recipe.objects.get(id=1)')
+        # obj = Recipe.objects.get(id=1)
+        # print(obj)
+
     # packs up dtat to be sent to template in the form of a dictionary
     context = {
         'form': form,
+        'recipeApp_df': recipeApp_df
     }
 
     return render(request, 'recipeApp/ingredient_search.html', context)
