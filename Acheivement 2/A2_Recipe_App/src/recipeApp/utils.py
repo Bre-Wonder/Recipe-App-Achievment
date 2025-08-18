@@ -42,34 +42,35 @@ def get_chart(chart_type, data, **kwargs):
     # select chart_type based on user input from the form
     if chart_type == '#1':
         # plot bar chart between difficulty on x-axis and quantity on y-axis
-        bars = plt.bar(data['difficulty'], data['quantity'], color=['#3498db', '#e74c3c', '#2ecc71', '#f39c12'])
-        plt.title('Recipe Difficulty Distribution - Bar Chart', fontsize=14, fontweight='bold')
+        bars = plt.bar(data['difficulty'], data['quantity'], color=[
+                       '#3498db', '#e74c3c', '#2ecc71', '#f39c12'])
         plt.xlabel('Difficulty Level', fontsize=12, fontweight='bold')
         plt.ylabel('Number of Recipes', fontsize=12, fontweight='bold')
-        
+
         # Add value labels on bars
         for bar in bars:
             height = bar.get_height()
             plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-                    f'{int(height)}', ha='center', va='bottom', fontweight='bold')
+                     f'{int(height)}', ha='center', va='bottom', fontweight='bold')
 
     elif chart_type == '#2':
         # generate pie chart based on difficulty distribution
         labels = kwargs.get('labels')
         colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12']
-        plt.pie(data['quantity'], labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
-        plt.title('Recipe Difficulty Distribution - Pie Chart', fontsize=14, fontweight='bold')
+        plt.pie(data['quantity'], labels=labels,
+                autopct='%1.1f%%', colors=colors, startangle=90)
 
     elif chart_type == '#3':
         # plot line chart based on difficulty on x-axis and quantity on y-axis
-        plt.plot(data['difficulty'], data['quantity'], marker='o', linewidth=2, markersize=8, color='#3498db')
-        plt.title('Recipe Difficulty Distribution - Line Chart', fontsize=14, fontweight='bold')
+        plt.plot(data['difficulty'], data['quantity'], marker='o',
+                 linewidth=2, markersize=8, color='#3498db')
         plt.xlabel('Difficulty Level', fontsize=12, fontweight='bold')
         plt.ylabel('Number of Recipes', fontsize=12, fontweight='bold')
-        
+
         # Add value labels on points
         for i, (x, y) in enumerate(zip(data['difficulty'], data['quantity'])):
-            plt.text(x, y + 0.1, f'{int(y)}', ha='center', va='bottom', fontweight='bold')
+            plt.text(x, y + 0.1, f'{int(y)}', ha='center',
+                     va='bottom', fontweight='bold')
     else:
         print('unknown chart type')
 
