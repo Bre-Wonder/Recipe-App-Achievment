@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import Recipe
 from django.contrib.auth.mixins import LoginRequiredMixin
 # import form from forms.py
-from .forms import IngredientSearchForm
+from .forms import IngredientSearchForm, ChartForm
 # installed pandas, now importing it
 import pandas as pd
 # allows queries to use the OR operator
@@ -52,38 +52,19 @@ def IngredientSearch(request):
         print(recipe_title)
         # print(chart_type)
 
+        # filter for user to be able to find recipe name and ingredients in the Recipe object
         qs = Recipe.objects.filter(Q(name__icontains=recipe_title) | Q(
             ingredients__icontains=recipe_title))
         print(qs)
-        # if qs:
-        #     recipeApp_df = pd.DataFrame(qs.values())
-        #     print(recipeApp_df)
-        #     recipeApp_df = recipeApp_df.to_html()
-
-        # print('Exploring querysets:')
-        # print('Case 1: Output of Recipe.objects.all()')
-        # qs = Recipe.objects.all()
-        # print(qs)
-
-        # print('Case 2: Output of Recipe.objects.filter(name__icontains=recipe_title)')
-        # qs = Recipe.objects.filter(ingredients__icontains=recipe_title)
-        # print(qs)
-
-        # print('Case 3: Output of qs.values')
-        # print(qs.values())
-
-        # print('Case 4: Output of qs.values_list()')
-        # print(qs.values_list())
-
-        # print('Case 5: Output of Recipe.objects.get(id=1)')
-        # obj = Recipe.objects.get(id=1)
-        # print(obj)
 
     # packs up dtat to be sent to template in the form of a dictionary
     context = {
         'form': form,
-        # 'recipeApp_df': recipeApp_df
         'qs': qs
     }
 
     return render(request, 'recipeApp/ingredient_search.html', context)
+
+
+def DifficultyChart(request):
+    return render(request, 'recipeApp/charts.html')
