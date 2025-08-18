@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import Recipe
+# authentication required with for classes
 from django.contrib.auth.mixins import LoginRequiredMixin
+# authentication required for functions
+from django.contrib.auth.decorators import login_required
 # import form from forms.py
 from .forms import IngredientSearchForm, ChartForm
 # installed pandas, now importing it
@@ -39,6 +42,7 @@ def home(request):
  # function that send in form for the user
 
 
+@login_required
 def IngredientSearch(request):
   # creates an instance of the form
     form = IngredientSearchForm(request.POST or None)
@@ -64,6 +68,7 @@ def IngredientSearch(request):
     return render(request, 'recipeApp/ingredient_search.html', context)
 
 
+@login_required
 def DifficultyChart(request):
     # creates an instance of a form
     form = ChartForm(request.POST or None)
@@ -82,10 +87,10 @@ def DifficultyChart(request):
         if qs.exists():
             # Create DataFrame from all recipes
             recipeApp_df = pd.DataFrame(qs.values())
-            
+
             # Count recipes by difficulty level
             difficulty_counts = recipeApp_df['difficulty'].value_counts()
-            
+
             # Create a new DataFrame for charting with the correct structure
             chart_df = pd.DataFrame({
                 'difficulty': difficulty_counts.index,
