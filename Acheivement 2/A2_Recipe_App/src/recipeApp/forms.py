@@ -1,6 +1,6 @@
 from django import forms
 
-comment out for now until I know I want to use this
+# chart options
 CHART_CHOICES = (
     ('#1', 'Bar Chart'),
     ('#2', 'Pie Chart'),
