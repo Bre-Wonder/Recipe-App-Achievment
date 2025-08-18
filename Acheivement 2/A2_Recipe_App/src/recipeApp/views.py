@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import IngredientSearchForm
 # installed pandas, now importing it
 import pandas as pd
+# allows queries to use the OR operator
+from django.db.models import Q
 
 
 # Create your views here.
@@ -50,12 +52,13 @@ def IngredientSearch(request):
         print(recipe_title)
         # print(chart_type)
 
-        qs = Recipe.objects.filter(ingredients__icontains=recipe_title)
+        qs = Recipe.objects.filter(Q(name__icontains=recipe_title) | Q(
+            ingredients__icontains=recipe_title))
         print(qs)
         if qs:
             recipeApp_df = pd.DataFrame(qs.values())
             print(recipeApp_df)
-            recipeApp_df = recipeApp_df.to_html()
+            recipeApp_df = recipeApp_df.to_dict(orient='records')
 
         # print('Exploring querysets:')
         # print('Case 1: Output of Recipe.objects.all()')
