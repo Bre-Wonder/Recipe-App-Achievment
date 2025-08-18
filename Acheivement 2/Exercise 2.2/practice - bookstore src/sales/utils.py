@@ -42,7 +42,7 @@ def get_chart(chart_type, data, **kwargs):
         plt.pie(data['price'], labels=labels)
 
     elif chart_type == '#3':
-        plt.plot(data['data_created'], data['price'])
+        plt.plot(data['date_created'], data['price'])
 
     else:
         print('unknown chart type')
