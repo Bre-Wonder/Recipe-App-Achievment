@@ -450,14 +450,14 @@
         <div class="container">
             <h1 class="page-title">Search Results</h1>
             
-            {% if recipeApp_df %}
+            {% if qs %}
                 <div class="search-info">
-                    <h3>Found {{ recipeApp_df.count }} Recipe{{ recipeApp_df.count|pluralize }}</h3>
+                    <h3>Found {{ qs.count }} Recipe{{ qs.count|pluralize }}</h3>
                     <p>Showing results for your search</p>
                 </div>
                 
                 <div class="recipe-widgets">
-                    {% for recipe in recipeApp_df %}
+                    {% for recipe in qs %}
                     <div class="recipe-widget">
                         <img src="{{recipe.pic.url}}" alt="{{recipe.name}}" />
                         <h3>{{recipe.name}}</h3>
