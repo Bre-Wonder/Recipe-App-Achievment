@@ -55,10 +55,10 @@ def IngredientSearch(request):
         qs = Recipe.objects.filter(Q(name__icontains=recipe_title) | Q(
             ingredients__icontains=recipe_title))
         print(qs)
-        if qs:
-            recipeApp_df = pd.DataFrame(qs.values())
-            print(recipeApp_df)
-            recipeApp_df = recipeApp_df.to_dict(orient='records')
+        # if qs:
+        #     recipeApp_df = pd.DataFrame(qs.values())
+        #     print(recipeApp_df)
+        #     recipeApp_df = recipeApp_df.to_html()
 
         # print('Exploring querysets:')
         # print('Case 1: Output of Recipe.objects.all()')
@@ -82,7 +82,8 @@ def IngredientSearch(request):
     # packs up dtat to be sent to template in the form of a dictionary
     context = {
         'form': form,
-        'recipeApp_df': recipeApp_df
+        # 'recipeApp_df': recipeApp_df
+        'qs': qs
     }
 
     return render(request, 'recipeApp/ingredient_search.html', context)
