@@ -8,6 +8,7 @@ from .forms import IngredientSearchForm, ChartForm
 import pandas as pd
 # allows queries to use the OR operator
 from django.db.models import Q
+from .utils import get_chart
 
 
 # Create your views here.
@@ -47,10 +48,7 @@ def IngredientSearch(request):
     if request.method == 'POST':
         # reads recipe_title
         recipe_title = request.POST.get('recipe_title')
-        # reads chart_type - going to comment this out for now since I'm not sure I will be using it here
-        # chart_type = request.POST.get('chart_type')
         print(recipe_title)
-        # print(chart_type)
 
         # filter for user to be able to find recipe name and ingredients in the Recipe object
         qs = Recipe.objects.filter(Q(name__icontains=recipe_title) | Q(
@@ -67,9 +65,39 @@ def IngredientSearch(request):
 
 
 def DifficultyChart(request):
+    # creates an instance of a form
     form = ChartForm(request.POST or None)
+    # initialized DataFrame as None
+    recipeApp_df = None
+    chart = None
+
+    if request.method == 'POST':
+        # reads chart_type
+        chart_type = request.POST.get('chart_type')
+        print(chart_type)
+
+        # Get ALL recipes (not filtered by chart_type)
+        qs = Recipe.objects.all()
+
+        if qs.exists():
+            # Create DataFrame from all recipes
+            recipeApp_df = pd.DataFrame(qs.values())
+            
+            # Count recipes by difficulty level
+            difficulty_counts = recipeApp_df['difficulty'].value_counts()
+            
+            # Create a new DataFrame for charting with the correct structure
+            chart_df = pd.DataFrame({
+                'difficulty': difficulty_counts.index,
+                'quantity': difficulty_counts.values
+            })
+
+            chart = get_chart(chart_type, chart_df,
+                              labels=chart_df['difficulty'].values)
 
     context = {
         'form': form,
+        'recipeApp_df': recipeApp_df,
+        'chart': chart
     }
     return render(request, 'recipeApp/charts.html', context)
