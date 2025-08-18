@@ -41,7 +41,7 @@ def home(request):
 def IngredientSearch(request):
   # creates an instance of the form
     form = IngredientSearchForm(request.POST or None)
-    qs = None
+    recipeApp_df = None
 
     # checks to see if search button is clicked
     if request.method == 'POST':
