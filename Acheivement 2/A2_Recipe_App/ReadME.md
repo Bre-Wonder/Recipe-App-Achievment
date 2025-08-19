@@ -51,4 +51,4 @@ Python | virtualenvwrapper | Django | DataFrame(pandas) | matplotlib
 
 GitHub Repository site: https://github.com/Bre-Wonder/Recipe-App-Achievment/tree/main/Acheivement%202
 
-Note: Cursor AI used to help in builing out html files
+Note: Cursor AI used to help in builing out html files with style and formatting. Chapt GPT used for helping to create testing files.
