@@ -1,8 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import Recipe
+from django.urls import reverse
 # to access Recipe model
 from django.db import models
 from recipeApp.forms import IngredientSearchForm, ChartForm
+from django.contrib.auth.models import User
+
 
 # Create your tests here.
 
@@ -92,3 +95,70 @@ class RecipeFormTest(TestCase):
         form = ChartForm(data={})
         self.assertFalse(form.is_valid())
         self.assertIn('chart_type', form.errors)
+
+
+class RecipeViewsTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username='testuser', password='testpass')
+        cls.recipe = Recipe.objects.create(
+            name='Pasta',
+            cooking_time=20,
+            ingredients='noodles, sauce',
+            difficulty='Easy',
+            description='Test description'
+        )
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_home_view(self):
+        response = self.client.get(reverse('recipeApp:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipeApp/recipe_home.html')
+
+    def test_recipe_list_view_requires_login(self):
+        response = self.client.get(reverse('recipeApp:list'))
+        self.assertRedirects(response, '/login/?next=' +
+                             reverse('recipeApp:list'))
+
+    def test_recipe_list_view_authenticated(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('recipeApp:list'))
+        self.assertEqual(response.status_code)
+        self.assertTemplateUsed(response, 'recipeApp/main_recipelist.html')
+        self.assertIn('form', response.context)
+
+    def test_recipe_detail_view_requires_login(self):
+        response = self.client.get(
+            reverse('recipeApp:detail', args=[self.recipe.id]))
+        self.assertRedirects(response, f'/login/?next=/list/{self.recipe.id}')
+
+    def test_recipe_detail_view_authenticated(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(
+            reverse('recipeApp:detail', args=[self.recipe.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipeApp/recipe_details.html')
+        self.assertEqual(response.context['object'], self.recipe)
+
+    def test_ingredient_search_post(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.post(reverse('recipeApp:ingredient_search'), {
+            'recipe_title': 'Pasta'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Pasta')
+        self.assertTemplateUsed(response, 'recipeApp/ingredient_search.html')
+        self.assertIn('qs', response.context)
+
+    def test_difficulty_chart_view_post(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.post(reverse('recipeApp:chart'), {
+            'chart_type': '#1'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipeApp/charts.html')
+        self.assertIn('chart', response.context)
