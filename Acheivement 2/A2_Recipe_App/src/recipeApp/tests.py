@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Recipe
 # to access Recipe model
 from django.db import models
+from recipeApp.forms import IngredientSearchForm, ChartForm
 
 # Create your tests here.
 
@@ -66,3 +67,28 @@ class RecipeModelTest(TestCase):
         recipe = Recipe.objects.get(id=1)
         # get_absolute_url() should take you to the detail page of recipe #1
         self.assertEqual(recipe.get_absolute_url(), '/list/1')
+
+
+class RecipeFormTest(TestCase):
+
+    # testing that search bar accepts valid data
+    def test_search_accepts_valid_data(self):
+        form = IngredientSearchForm(data={'recipe_title': 'Pizza'})
+        self.assertTrue(form.is_valid())
+
+    # ensuring that user input doesn't exceed character length
+    def test_form_max_length(self):
+        long_title = 'x' * 121
+        form = IngredientSearchForm(data={'recipe_title': long_title})
+        self.assertFalse(form.is_valid())
+
+    # testing that chart form accepts valid choice from options
+    def test_chart_accepts_valid_data(self):
+        form = ChartForm(data={'chart_type': '#1'})
+        self.assertTrue(form.is_valid())
+
+    # ensures required fied is not optional
+    def test_chart_form_requires_chart_type(self):
+        form = ChartForm(data={})
+        self.assertFalse(form.is_valid())
+        self.assertIn('chart_type', form.errors)
