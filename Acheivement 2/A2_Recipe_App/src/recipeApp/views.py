@@ -39,6 +39,10 @@ class RecipeDetailView(LoginRequiredMixin, DetailView):
 def home(request):
     return render(request, 'recipeApp/recipe_home.html')
 
+
+def about(request):
+    return render(request, 'recipeApp/about.html')
+
  # function that send in form for the user
 
 
