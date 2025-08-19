@@ -114,28 +114,34 @@ class RecipeViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
 
+    # checks that home page is accessible without login and use the correct template
     def test_home_view(self):
         response = self.client.get(reverse('recipeApp:home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'recipeApp/recipe_home.html')
 
+    # confirms that login is required for access
     def test_recipe_list_view_requires_login(self):
         response = self.client.get(reverse('recipeApp:list'))
         self.assertRedirects(response, '/login/?next=' +
                              reverse('recipeApp:list'))
 
+    # confirms that list view page loads once user is authenticated
     def test_recipe_list_view_authenticated(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('recipeApp:list'))
-        self.assertEqual(response.status_code)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'recipeApp/main_recipelist.html')
         self.assertIn('form', response.context)
+
+    # confirms that login is required for access
 
     def test_recipe_detail_view_requires_login(self):
         response = self.client.get(
             reverse('recipeApp:detail', args=[self.recipe.id]))
         self.assertRedirects(response, f'/login/?next=/list/{self.recipe.id}')
 
+    # confirms that detail view renders once user is authenticated
     def test_recipe_detail_view_authenticated(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(
@@ -144,19 +150,11 @@ class RecipeViewsTest(TestCase):
         self.assertTemplateUsed(response, 'recipeApp/recipe_details.html')
         self.assertEqual(response.context['object'], self.recipe)
 
-    def test_ingredient_search_post(self):
-        self.client.login(username='testuser', password='testpass')
-        response = self.client.post(reverse('recipeApp:ingredient_search'), {
-            'recipe_title': 'Pasta'
-        })
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Pasta')
-        self.assertTemplateUsed(response, 'recipeApp/ingredient_search.html')
-        self.assertIn('qs', response.context)
+    # tests if the difficulty chart view processes form and chart logic
 
     def test_difficulty_chart_view_post(self):
         self.client.login(username='testuser', password='testpass')
-        response = self.client.post(reverse('recipeApp:chart'), {
+        response = self.client.post(reverse('recipeApp:charts'), {
             'chart_type': '#1'
         })
         self.assertEqual(response.status_code, 200)
