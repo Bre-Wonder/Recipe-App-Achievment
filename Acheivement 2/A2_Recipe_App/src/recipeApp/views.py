@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Recipe
 # authentication required with for classes
@@ -6,12 +6,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # authentication required for functions
 from django.contrib.auth.decorators import login_required
 # import form from forms.py
-from .forms import IngredientSearchForm, ChartForm
+from .forms import IngredientSearchForm, ChartForm, CreateRecipe
 # installed pandas, now importing it
 import pandas as pd
 # allows queries to use the OR operator
 from django.db.models import Q
 from .utils import get_chart
+# import for success messages once user completes a form
+from django.contrib import messages
 
 
 # Create your views here.
@@ -110,3 +112,26 @@ def DifficultyChart(request):
         'chart': chart
     }
     return render(request, 'recipeApp/charts.html', context)
+
+# allows user to created their own recipe
+
+
+@login_required
+def create_recipe(request):
+    if request.method == 'POST':
+        # creates instance of a form
+        form = CreateRecipe(request.POST, request.FILES)
+        if form.is_valid():
+            # saves the inputs of this form
+            form.save()
+            # sends message to the user that recipe was added successfully
+            messages.success(request, 'Recipe was added successfully')
+            return redirect('recipeApp:list')
+    else:
+        form = CreateRecipe()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'recipeApp/create_recipe.html', context)
