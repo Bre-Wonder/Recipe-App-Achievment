@@ -38,17 +38,13 @@ Python | virtualenvwrapper | Django | DataFrame(pandas) | matplotlib
       These are all steps that will serve you while creating a project in Django
 
 
-### API Use
-
-
 ### Lessons Learned:
 
 * I've learned to structure my project in the way that Django requires with MVT type of architacture. One awesome advantage of this is that parts can be reused without have to re-written. If something from one project was applicaable to some other project, I could just re-use it, such as a login. 
 
 
-### What would I do differently? 
+GitHub Repository site: 
 
-
-GitHub Repository site: https://github.com/Bre-Wonder/Recipe-App-Achievment/tree/main/Acheivement%202
+Live application deployed to the Azure Cloud:
 
 Note: Cursor AI used to help in builing out html files with style and formatting. Chapt GPT used for helping to create testing files.
